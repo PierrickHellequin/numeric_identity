@@ -37,10 +37,10 @@ class Main extends Component {
             theaccounts: null,
             rewarderContract: null,
             estimatedReward: 0
-           
+
         };
 
-       
+
 
         this.runInit = this.runInit.bind(this);
         this.accountChanged = this.accountChanged.bind(this);
@@ -75,7 +75,7 @@ class Main extends Component {
 
         this.loadWeb3();
 
- 
+
 
 
     };
@@ -103,29 +103,29 @@ class Main extends Component {
                 //         deployedNetwork && deployedNetwork.address,
                 //     );
 
-                    var instance = null;
+                var instance = null;
 
-                    const bal = await web3.eth.getBalance(accounts[0]);
-                    var chainname = "undefined";
-                    if (networkId === 1)
-                        chainname = "mainnet";
-                    if (networkId === 5777)
-                        chainname = "ganache";
-                    if (networkId === 42)
-                        chainname = "kovan";
-                    // TODO: others networks ?
-                    var balEther = web3.utils.fromWei(bal, 'ether');
+                const bal = await web3.eth.getBalance(accounts[0]);
+                var chainname = "undefined";
+                if (networkId === 1)
+                    chainname = "mainnet";
+                if (networkId === 5777)
+                    chainname = "ganache";
+                if (networkId === 42)
+                    chainname = "kovan";
+                // TODO: others networks ?
+                var balEther = web3.utils.fromWei(bal, 'ether');
 
-                    // contract should be dployed here
+                // contract should be dployed here
 
-                    this.setState({
-                        currentAccount: accounts[0].toString(), currentAmount: balEther.toString(),
-                        currentBlockchain: chainname,
-                        connectStatus: 1, theweb3: web3, theaccounts: accounts, rewarderContract: instance
-                    }, this.runInit);
+                this.setState({
+                    currentAccount: accounts[0].toString(), currentAmount: balEther.toString(),
+                    currentBlockchain: chainname,
+                    connectStatus: 1, theweb3: web3, theaccounts: accounts, rewarderContract: instance
+                }, this.runInit);
 
-                    console.log("contract found");
-                }
+                console.log("contract found");
+            }
             //}
             // else {
             //     this.setState({
@@ -165,7 +165,7 @@ class Main extends Component {
 
     async accountChanged(newaccounts) {
         console.log('accountsChanges', newaccounts);
-    
+
         await this.loadWeb3();
     }
 
@@ -177,38 +177,38 @@ class Main extends Component {
         // const accounts = this.state.accounts;
         // if (accounts != null) {
         //   const result = await contract.methods.EstimateRewardForAddress(accounts[0]).call();
-         
+
         //   const rewards = result;
-    
+
         //   this.setState({ estimatedReward: rewards });
         // }
         // console.log("update estimated rewards");
-      }
-    
-      ClaimTransaction = async () => {
-   
+    }
+
+    ClaimTransaction = async () => {
+
         // const accounts = this.state.accounts;
-    
+
         // const contract = this.state.rewarderContract;
-        
+
         // try {
         //   await contract.methods.Claim().send({ from: accounts[0] });
-    
-  
-    
+
+
+
         //   this.runInit();
         // }
         // catch (error) {
-          
+
         //   console.log(error);
         // }
-      }
-    
-     
+    }
+
+
 
     runInit = async () => {
 
-       
+
         // const contract = this.state.rewarderContract;
 
         // if (contract != null) {
@@ -217,44 +217,44 @@ class Main extends Component {
         // }
     };
 
-  
+
     render() {
 
 
 
         return (
-         //<Router>
-                <div className="App">
-                    <div class="container-fluid">
-                        <div class="row flex-nowrap">
-                            <div class="col bg-color1"><NavbarSimple
-                                connectStatus={this.state.connectStatus}
-                                account={this.state.currentAccount}
-                                blockchain={this.state.currentBlockchain}
-                                amount={this.state.currentAmount}
-                                onConnect={this.handleConnect}></NavbarSimple></div>
+            //<Router>
+            <div className="App">
+                <div class="container-fluid">
+                    <div class="row flex-nowrap">
+                        <div class="col bg-color1"><NavbarSimple
+                            connectStatus={this.state.connectStatus}
+                            account={this.state.currentAccount}
+                            blockchain={this.state.currentBlockchain}
+                            amount={this.state.currentAmount}
+                            onConnect={this.handleConnect}></NavbarSimple></div>
+                    </div>
+                    <div class="row flex-nowrap">
+                        {/* <div class="col-sm-3 bg-color2">  */}
+                        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                            <Menu onLinkClicked={this.handleLinkClicked}></Menu>
                         </div>
-                        <div class="row flex-nowrap">
-                            {/* <div class="col-sm-3 bg-color2">  */}
-                            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
-                                <Menu onLinkClicked={this.handleLinkClicked}></Menu>
-                            </div>
-                            <div class="col-sm-9 bg-color3">
-                                <div class="container p-5 my-5">
-                                    <MainpageSelector  
-                                        onPageChangedClicked={this.handleLinkClicked}
-                                        curPage={this.state.currentpage}                                        
-                                        connectStatus={this.state.connectStatus}
-                                       
-                                    >
-                                    </MainpageSelector>
-                                </div>
+                        <div class="col-sm-9 bg-color3">
+                            <div class="container p-5 my-5">
+                                <MainpageSelector
+                                    onPageChangedClicked={this.handleLinkClicked}
+                                    curPage={this.state.currentpage}
+                                    connectStatus={this.state.connectStatus}
+
+                                >
+                                </MainpageSelector>
                             </div>
                         </div>
-          </div>
-          </div>
-         //</Router>
-    
+                    </div>
+                </div>
+            </div>
+            //</Router>
+
         );
     }
 }
