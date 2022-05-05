@@ -8,7 +8,6 @@ import getWeb3 from "./getWeb3";
 import "./App.css";
 
 //Load components
-import Navigation from "./components/Navbar";
 import Home from "./components/Home";
 import Admin from "./components/admin";
 import Defi from "./components/protocole";

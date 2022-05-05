@@ -1,36 +1,15 @@
-
 import React, { Component } from "react";
 
 class Mainpage extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-    constructor(props) {
-        super(props);
+  componentDidMount = async () => {};
 
-
-    }
-
-    componentDidMount = async () => {
-
-
-    };
-
-
-
-
-
-    render() {
-
-
-
-       
-        return (
-            <h1>MAIN PAGE</h1>
-        );
-
-
-
-
-    }
+  render() {
+    return <h1>MAIN PAGE</h1>;
+  }
 }
 
 export default Mainpage;
