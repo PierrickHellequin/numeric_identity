@@ -35,6 +35,11 @@ contract IdFundedRewarder is IdModificationListener
     {
         rewToken = ERC20(RewTokenAddress);
     }
+
+    function setRewardRate(uint TokensPerSec) public onlyOwner
+    {
+        nbTokenPerSec = TokensPerSec;
+    }
   
      function RegisterAddress(uint key,address newAddress) public onlyOwner
      {
@@ -81,6 +86,7 @@ contract IdFundedRewarder is IdModificationListener
 
      function EstimateReward(uint key) public view returns (uint)
      {
+         require (rewardsBalance[key].isInList);   
          uint current = block.timestamp;
          uint prev = rewardsBalance[key].timestamp;
 
@@ -97,6 +103,7 @@ contract IdFundedRewarder is IdModificationListener
             uint prev = rewardsBalance[key].timestamp;
 
             uint nbTokens = (current - prev) * nbTokenPerSec;
+
             return nbTokens;
          }
          else
