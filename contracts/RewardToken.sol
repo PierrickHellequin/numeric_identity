@@ -13,3 +13,6 @@ contract RewardToken is ERC20PresetMinterPauser {
         grantRole(PAUSER_ROLE, minter);
     }
 } 
+
+
+
