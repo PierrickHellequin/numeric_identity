@@ -32,9 +32,9 @@ module.exports = async function(deployer) {
   await instanceRewarder.setRewardToken(instanceRew.address);
 
 
-  // // add some citizens
-  // console.log("****** ADDING SOME CITIZENS FOR DBG **************************");
-  // await instanceRewarder.RegisterAddress(1,accounts[0]);
-  // //await instanceRewarder.RegisterAddress(2,"0x167275608901797c1C3fA41DD549cfC7ca404c34");
+  // add some citizens
+  console.log("****** ADDING SOME CITIZENS FOR DBG **************************");
+  await instanceRewarder.RegisterAddress(1,accounts[0]);
+  //await instanceRewarder.RegisterAddress(2,"0x167275608901797c1C3fA41DD549cfC7ca404c34");
  
 };

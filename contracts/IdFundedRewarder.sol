@@ -22,7 +22,7 @@ contract IdFundedRewarder is IdModificationListener
      // Key == 0 => unused !!!
      mapping (uint => TokenBalance) private rewardsBalance;// todo rename
      mapping (address => uint) private addressToKey;
-     uint private nbTokenPerSec = 1;
+     uint private nbTokenPerSec = 100000000000000;// in wei
      uint nbRegisteredAddresses = 0;
     
 

@@ -18,7 +18,7 @@ import getWeb3Click from "../getWeb3";
 
 
 // contracts
-//import IdRewarder from "../contracts/IdRewarder.json";
+import IdRewarder from "../contracts/IdFundedRewarder.json";
 
 
 // css
@@ -95,46 +95,46 @@ class Main extends Component {
             if ((web3.currentProvider != null) && (web3.eth.net != null)) {
                 const networkId = await web3.eth.net.getId();
 
-                // const deployedNetwork = IdRewarder.networks[networkId];
+                const deployedNetwork = IdRewarder.networks[networkId];
 
-                // if (deployedNetwork != null) {
-                //     const instance = new web3.eth.Contract(
-                //         IdRewarder.abi,
-                //         deployedNetwork && deployedNetwork.address,
-                //     );
+                if (deployedNetwork != null) {
+                    const instance = new web3.eth.Contract(
+                        IdRewarder.abi,
+                        deployedNetwork && deployedNetwork.address,
+                    );
 
-                var instance = null;
+                    //var instance = null;
 
-                const bal = await web3.eth.getBalance(accounts[0]);
-                var chainname = "undefined";
-                if (networkId === 1)
-                    chainname = "mainnet";
-                if (networkId === 5777)
-                    chainname = "ganache";
-                if (networkId === 42)
-                    chainname = "kovan";
-                // TODO: others networks ?
-                var balEther = web3.utils.fromWei(bal, 'ether');
+                    const bal = await web3.eth.getBalance(accounts[0]);
+                    var chainname = "undefined";
+                    if (networkId === 1)
+                        chainname = "mainnet";
+                    if (networkId === 5777)
+                        chainname = "ganache";
+                    if (networkId === 42)
+                        chainname = "kovan";
+                    // TODO: others networks ?
+                    var balEther = web3.utils.fromWei(bal, 'ether');
 
-                // contract should be dployed here
+                    // contract should be dployed here
 
+                    this.setState({
+                        currentAccount: accounts[0].toString(), currentAmount: balEther.toString(),
+                        currentBlockchain: chainname,
+                        connectStatus: 1, theweb3: web3, theaccounts: accounts, rewarderContract: instance
+                    }, this.runInit);
+
+                    console.log("contract found");
+                }
+            }
+            else {
                 this.setState({
                     currentAccount: accounts[0].toString(), currentAmount: balEther.toString(),
                     currentBlockchain: chainname,
-                    connectStatus: 1, theweb3: web3, theaccounts: accounts, rewarderContract: instance
-                }, this.runInit);
-
-                console.log("contract found");
+                    connectStatus: 2, theweb3: web3, theaccounts: accounts, thecontract: null
+                });
+                console.log("contract not found");
             }
-            //}
-            // else {
-            //     this.setState({
-            //         currentAccount: accounts[0].toString(), currentAmount: balEther.toString(),
-            //         currentBlockchain: chainname,
-            //         connectStatus: 2, theweb3: web3, theaccounts: accounts, thecontract: null
-            //     });
-            //     console.log("contract not found");
-            // }
 
 
             window.ethereum.on('accountsChanged', (accounts) => {
@@ -173,35 +173,45 @@ class Main extends Component {
 
     updateEstimatedReward = async () => {
 
-        // const contract = this.state.rewarderContract;
-        // const accounts = this.state.accounts;
-        // if (accounts != null) {
-        //   const result = await contract.methods.EstimateRewardForAddress(accounts[0]).call();
+        const contract = this.state.rewarderContract;
+        const accounts = this.state.theaccounts;
+        if (accounts != null) {
+          const result = await contract.methods.EstimateRewardForAddress(this.state.currentAccount).call();
 
-        //   const rewards = result;
+          const rewards = result;
+          const isreg = await contract.methods.IsRegisteredAdress(this.state.currentAccount).call();
+          if (isreg)
+          {
+            console.log(this.state.currentAccount+" registered");
+          }
+          else
+          {
+            console.log(this.state.currentAccount+" not registered");
+          }
+        
 
-        //   this.setState({ estimatedReward: rewards });
-        // }
-        // console.log("update estimated rewards");
+          this.setState({ estimatedReward: rewards });
+        }
+        console.log("update estimated rewards");
     }
 
     ClaimTransaction = async () => {
 
-        // const accounts = this.state.accounts;
+      
 
-        // const contract = this.state.rewarderContract;
+        const contract = this.state.rewarderContract;
 
-        // try {
-        //   await contract.methods.Claim().send({ from: accounts[0] });
+        try {
+          await contract.methods.Claim().send({ from: this.state.currentAccount });
 
 
 
-        //   this.runInit();
-        // }
-        // catch (error) {
+          this.runInit();
+        }
+        catch (error) {
 
-        //   console.log(error);
-        // }
+          console.log(error);
+        }
     }
 
 
@@ -209,12 +219,12 @@ class Main extends Component {
     runInit = async () => {
 
 
-        // const contract = this.state.rewarderContract;
+        const contract = this.state.rewarderContract;
 
-        // if (contract != null) {
-        //        // recup estimation rewards
-        //     this.updateEstimatedReward();
-        // }
+        if (contract != null) {
+               // recup estimation rewards
+            this.updateEstimatedReward();
+        }
     };
 
 
@@ -245,7 +255,8 @@ class Main extends Component {
                                     onPageChangedClicked={this.handleLinkClicked}
                                     curPage={this.state.currentpage}
                                     connectStatus={this.state.connectStatus}
-
+                                    RewardsAmountEstimated = {this.state.estimatedReward}
+                                    onClaim = {this.ClaimTransaction}
                                 >
                                 </MainpageSelector>
                             </div>

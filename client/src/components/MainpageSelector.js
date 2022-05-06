@@ -41,7 +41,7 @@ class MainpageSelector extends Component {
         }
         else if (this.props.curPage === 1) {
             return (
-                <RewardsComp onClaim = {this.props.onClaim} RewardsAmountEstimated= {0} />
+                <RewardsComp onClaim = {this.props.onClaim} RewardsAmountEstimated= {this.props.RewardsAmountEstimated} />
             );
 
         }
