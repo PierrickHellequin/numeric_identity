@@ -1,22 +1,405 @@
-.App {
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@PierrickHellequin 
+PierrickHellequin
+/
+numeric_identity
+Public
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+numeric_identity/client/src/App.css
+
+Laetitia Update design profil
+Latest commit acc79c4 2 hours ago
+ History
+ 1 contributor
+376 lines (336 sloc)  6.09 KB
+   
+::selection {
+  background-color: #272a33;
+  color: #ffffff;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url(https://fonts.googleapis.com/css?family=Poppins);
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url(http://fonts.googleapis.com/css?family=Rubik);
+}
+
+/* BASE */ 
+
+body{
+  font-family: "Rubik", sans-serif !important;
+}
+
+h2{
+  position: relative;
+  margin-bottom: 0px;
+  padding-bottom: 1rem;
+  line-height: 1;
+
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 1.75rem;
+  font-weight: 500;
+}
+h2:after{
+  content:"";
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 1rem;
+
+  background-color: #fb3e3e;
+}
+h2.home:after{
+  width: 50px;
+}
+
+h3{
+  font-size: 18px !important;
+  font-family: "Poppins", sans-serif;
+}
+
+h4{
+  font-size: 1.1rem !important;
+  padding-top: 20px;
+  margin-bottom: 7px;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+}
+
+p{
+  font-size: 1rem;
+  color: #a8aeb4;
+  padding-bottom:1rem;
+}
+
+ul{
+  list-style-type: none !important;
+  padding: 0 !important;
+}
+
+img{
+  max-width: 100%;
+}
+
+/* HEADER */
+header .navbar{
+  display: flex;
+  width: 100%;
+
+  padding:10px 0px;
+  background-color: #272a33;
+  box-shadow: 0 10px 33px rgb(0 0 0 / 10%);
+}
+header #logo{
+  letter-spacing: 2px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+}
+header .navbar .navbar-nav .nav-link{
+  line-height: 26px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 15px;
+  transition: all 0.4s;
+  padding: 15px 0;
+  margin: 0 10px;
+}
+
+header .navbar .navbar-nav .nav-link.active,
+header .navbar .navbar-nav .nav-link:hover {
+  color:#ffffff;
+}
+
+/* FOOTER */
+
+footer .contact{
+  padding: 20px 0px;
+  background-color: #f8f9fa;
+  font-family: "Rubik", sans-serif;
+  font-size: 1rem;
+}
+footer .contact .container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+footer .contact ul{
+  display: flex;
+}
+footer .contact ul li{
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+footer .contact ul li a{
+  border: 2px solid #afb5bd;
+  border-radius: 50%;
+  color: #afb5bd;
+  width: 48px;
+  height: 48px;
+  display: block;
+  font-size: 19px;
+  line-height: 44px;
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
+footer .contact ul li a:hover{
+  color: #fb3e3e;
+  border-color: #fb3e3e;
+}
+footer .copyright{
+  padding: 15px 0;
+  background-color: #2e313a;
+  color:#95a0ab;
+  font-size: 1rem;
 }
 
-.App-header {
-  background-color: #282c34;
+#basic-navbar-nav{
+  margin-left:50px;  
+}
+
+/* BUTTONS */ 
+button{
+  border: none;
+  background-color: transparent;
+  transition: all 0.4s;
+}
+
+button.btn-primary{
+  background-color: #fb3e3e;
+  border-color: #fb3e3e;
+}
+button.profil{
+  display: flex;
+  flex-direction: column;
+  transition: all .4s linear;
+  align-items: center;
+  position: relative;
+  border:none;
+  padding:.5rem;
+  background-color: #ffffff;
+  width: 100%;
+
+  color:#272a33;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px 0 rgb(0 0 0 / 20%);
+}
+button.profil i{
+  font-size:3rem;
+  color: #fb3e3e;
+}
+button.profil:hover{
+  background-color: #fb3e3e;
+  color:#ffffff;
+}
+button.profil:hover i{
+  color:#ffffff;
+}
+
+button.only-icon{
+  color:#fb3e3e;
+  font-size: 1.2rem;
+}
+button.only-icon span{
+  margin-left:.5rem;
+}
+button.only-icon:hover{
+  color:#212529;
+}
+
+/* HOME PAGE */
+section{
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+section.dark{
+  background-color: #f8f9fa;
+}
+
+section.bg-home{
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  padding-bottom: 150px;
+  padding-top: 220px;
+
+  background: url(assets/images/bg-home.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+section.bg-home > * {
+  position: relative;
+}
+
+section.bg-home .bg-overlay{
+  background: linear-gradient(to right, #512da8, #711e72);
+  opacity: 0.9;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  top: 0;
+}
+
+section.bg-home .app{
+  display: flex;
+  width: 100%;
+}
+
+section.bg-home .bg-pattern-effect{
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+section.our-services{
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+section.our-services ul{
+  display: flex;
+  flex-wrap: wrap;
+}
+section.our-services ul li{
+  width:33.33%;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;;
+}
+section.our-services ul li i{
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-size: 32px;
+  height: 68px;
+  width: 68px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 1.25rem rgb(108 118 134 / 10%) !important;
+  line-height: 68px;
+  margin-bottom: 15px;
+  color: #fb3e3e;
+}
+section.our-services ul li p{
+  color: #95a0ab;
 }
 
-.App-link {
-  color: #09d3ac;
+section.process ul{
+  display: flex;
+}
+
+section.process ul li{
+  position: relative;
+  width: 33.33%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+section.process ul li i{
+  font-size: 3rem;
+  line-height: 72px;
+  color: #fb3e3e;
+}
+section.process ul li.plan-line:before{
+  content: "";
+  border: 1px dashed #e0e0e0;
+  position: absolute;
+  width: 67%;
+  left: 65%;
+  top: 50px;  
+}
+section.process ul li.plan-line:after{
+  position: absolute;
+  left: 95%;
+  top: 22px;  
+
+  
+  content: "\f0a9";
+  font-family: "FontAwesome";
+  color: #fb3e3e;  
+  font-size: 2.5rem;
+}
+
+
+
+section.people ul{
+  display: flex;
+}
+section.people ul li{
+  width: 25%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+section.people ul li img{
+  border-radius:0.25rem;
+}
+section.people ul li p{
+  font-size: .75rem;
+  border-bottom: 1px solid #ecf0f5;
+}
+
+/* PROFIL */
+section.actions ul{
+ display: flex;
+}
+section.actions ul li{
+  width: 100%;
+  padding:0.75rem;
+ }
+
+section.family ul{
+  display: flex;
+  flex-wrap: wrap;
+}
+section.family ul li{
+  width: 50%;
+  padding: 1rem;
+}
+section.family ul li .people{
+  padding:1rem;
+  display: flex;
+  flex-direction: column;
+
+  border-radius:.25rem;
+  border: 1px solid #ecf0f5;
+  box-shadow: 0 0 1.25rem rgb(108 118 134 / 10%);
+}
+section.family ul li .top{
+  display: flex;
+  justify-content: space-between;
+}
+section.family ul li .top p{
+  margin:0;
+  padding:0;
+}
+section.family ul li .bottom{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ecf0f5;
 }

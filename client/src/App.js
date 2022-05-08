@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { Component } from "react"
 
 import IdRewarder from "./contracts/IdRewarder.json";
 //import erc20 from "./contracts/ERC20.json"
@@ -8,7 +7,6 @@ import getWeb3 from "./getWeb3";
 import "./App.css";
 
 //Load components
-import Navigation from "./components/Navbar";
 import Home from "./components/Home";
 import Admin from "./components/admin";
 import Defi from "./components/protocole";
