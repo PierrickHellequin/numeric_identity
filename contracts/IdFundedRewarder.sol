@@ -25,7 +25,11 @@ contract IdFundedRewarder is IdModificationListener
 
 
      mapping (address => uint[]) private addressToKeys;
-     uint private nbTokenPerSec = 100000000000000;// in wei
+     //uint private nbTokenPerSec = 100000000000000;// in wei
+
+     // reduced for tests
+     uint private nbTokenPerSec = 1;// in wei
+
      uint nbRegisteredAddresses = 0;
     
 
@@ -59,16 +63,20 @@ contract IdFundedRewarder is IdModificationListener
          rewardInfos[key] = RewardInfo(true,current,newAddress,addressToKeys[newAddress].length-1);
          nbRegisteredAddresses++;
      }
+
     // REMOVE KEY
      function RemoveAddress(uint key) public onlyOwner
      {
         require (rewardInfos[key].isInList);
-         uint indexInArray = rewardInfos[key].indexInArray;
-         // remove in array
-         addressToKeys[rewardInfos[key].ethereumAddress][indexInArray] = addressToKeys[rewardInfos[key].ethereumAddress][indexInArray - 1];
-         addressToKeys[rewardInfos[key].ethereumAddress].pop();
+        uint indexInArray = rewardInfos[key].indexInArray;
+        // remove in array
+        uint[] storage arrayOfKeys = addressToKeys[rewardInfos[key].ethereumAddress];
+        if (indexInArray > 0)
+            arrayOfKeys[indexInArray] = arrayOfKeys[arrayOfKeys.length - 1];
+
+        arrayOfKeys.pop();
        
-         nbRegisteredAddresses--;
+        nbRegisteredAddresses--;
      }
 
      function UpdateAddress(uint key,address newAddress) public onlyOwner
@@ -76,8 +84,11 @@ contract IdFundedRewarder is IdModificationListener
          require (rewardInfos[key].isInList);   
          uint indexInArray = rewardInfos[key].indexInArray;
          // remove this key from the keys associated to this adress
-         addressToKeys[rewardInfos[key].ethereumAddress][indexInArray] = addressToKeys[rewardInfos[key].ethereumAddress][indexInArray - 1];
-         addressToKeys[rewardInfos[key].ethereumAddress].pop();
+        uint[] storage arrayOfKeys = addressToKeys[rewardInfos[key].ethereumAddress];
+        if (indexInArray > 0)
+            arrayOfKeys[indexInArray] = arrayOfKeys[arrayOfKeys.length - 1];
+
+        arrayOfKeys.pop();
 
          // add the key to the new adress
          addressToKeys[newAddress].push(key);
