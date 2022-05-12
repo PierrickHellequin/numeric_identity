@@ -7,22 +7,6 @@ const RewardTokenDai = artifacts.require("./RewardTokenDai.sol");
 
 contract("IdFundedRewarder", accounts => {
 
-  // // initialize
-  // it("...should initialize ok.", async () => {
-  //   const IdFundedRewarder = await IdFundedRewarder.deployed();
-  //   const RewardTokenDai = await RewardTokenDai.deployed();
-
-  //   // set reward token
-  //   await IdFundedRewarder.setRewardToken(RewardTokenDai.adress);
-
-  //   // Set value of 89
-  //   await simpleStorageInstance.set(89, { from: accounts[0] });
-
-  //   // Get stored value
-  //   const storedData = await simpleStorageInstance.get.call();
-
-  //   assert.equal(storedData, 89, "The value 89 was not stored.");
-  // });
 
   var snapshotId;
   var amount3N;
@@ -67,8 +51,8 @@ contract("IdFundedRewarder", accounts => {
     const addresskey2 = await RewarderInstance.GetAddressFromKey.call(2);
     assert.equal(addresskey2, accounts[1], "GetAddressFromKey is incorrect");
 
-    const key3 = await RewarderInstance.GetKeyFromAddress.call(accounts[2]);
-    assert.equal(key3, 3, "GetKeyFromAddress is incorrect");
+    // const key3 = await RewarderInstance.GetKeyFromAddress.call(accounts[2]);
+    // assert.equal(key3, 3, "GetKeyFromAddress is incorrect");
 
     // UPDATE
     await RewarderInstance.UpdateAddress(3, accounts[3]);

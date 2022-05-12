@@ -8,27 +8,31 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract IdFundedRewarder is IdModificationListener
 {
-    // todo rename
+
     // todo: events
     // todo: doc solidity
     // todo: change owner (in deploy) so that main contract can register
-    struct TokenBalance
+    struct RewardInfo
     {
         bool isInList;
         uint timestamp;
         address ethereumAddress;
+        uint indexInArray;
     }
 
      // Key == 0 => unused !!!
-     mapping (uint => TokenBalance) private rewardsBalance;// todo rename
-     mapping (address => uint) private addressToKey;
+     mapping (uint => RewardInfo) private rewardInfos;
+
+
+     mapping (address => uint[]) private addressToKeys;
      uint private nbTokenPerSec = 100000000000000;// in wei
      uint nbRegisteredAddresses = 0;
     
 
 
 
-     ERC20 private rewToken;
+    ERC20 private rewToken;
+
 
 
     function setRewardToken(address RewTokenAddress) public onlyOwner
@@ -41,31 +45,46 @@ contract IdFundedRewarder is IdModificationListener
         nbTokenPerSec = TokensPerSec;
     }
   
+    // ADD KEY
      function RegisterAddress(uint key,address newAddress) public onlyOwner
      {
          // key == 0 means invalid
          require (key > 0);
-         require (!rewardsBalance[key].isInList);
+         require (!rewardInfos[key].isInList);
          uint current = block.timestamp;
-         rewardsBalance[key] = TokenBalance(true,current,newAddress);
-         addressToKey[newAddress] = key;
+         
+         addressToKeys[newAddress].push(key);
+         // an address can manage no more than 10 ids
+         require(addressToKeys[newAddress].length < 10);
+         rewardInfos[key] = RewardInfo(true,current,newAddress,addressToKeys[newAddress].length-1);
          nbRegisteredAddresses++;
      }
-
+    // REMOVE KEY
      function RemoveAddress(uint key) public onlyOwner
      {
-         require (rewardsBalance[key].isInList);
-         addressToKey[rewardsBalance[key].ethereumAddress] = 0;
-         rewardsBalance[key] = TokenBalance(false,0,address(0));
+        require (rewardInfos[key].isInList);
+         uint indexInArray = rewardInfos[key].indexInArray;
+         // remove in array
+         addressToKeys[rewardInfos[key].ethereumAddress][indexInArray] = addressToKeys[rewardInfos[key].ethereumAddress][indexInArray - 1];
+         addressToKeys[rewardInfos[key].ethereumAddress].pop();
+       
          nbRegisteredAddresses--;
      }
 
      function UpdateAddress(uint key,address newAddress) public onlyOwner
      {
-         require (rewardsBalance[key].isInList);   
-         addressToKey[rewardsBalance[key].ethereumAddress] = 0;   
-         rewardsBalance[key].ethereumAddress = newAddress;
-         addressToKey[newAddress] = key; 
+         require (rewardInfos[key].isInList);   
+         uint indexInArray = rewardInfos[key].indexInArray;
+         // remove this key from the keys associated to this adress
+         addressToKeys[rewardInfos[key].ethereumAddress][indexInArray] = addressToKeys[rewardInfos[key].ethereumAddress][indexInArray - 1];
+         addressToKeys[rewardInfos[key].ethereumAddress].pop();
+
+         // add the key to the new adress
+         addressToKeys[newAddress].push(key);
+         require(addressToKeys[newAddress].length < 10);
+        
+         rewardInfos[key].ethereumAddress = newAddress;
+         rewardInfos[key].indexInArray = addressToKeys[newAddress].length - 1;
      }
 
      function GetNbRegisteredAdresses() public view returns (uint)
@@ -75,20 +94,20 @@ contract IdFundedRewarder is IdModificationListener
 
      function GetAddressFromKey(uint key) public view returns (address)
      {
-         require (rewardsBalance[key].isInList);   
-         return rewardsBalance[key].ethereumAddress;
+         require (rewardInfos[key].isInList);   
+         return rewardInfos[key].ethereumAddress;
      }
 
-     function GetKeyFromAddress(address ethAddress) public view returns (uint)
-     {
-         return addressToKey[ethAddress];
-     }
+    //  function GetKeyFromAddress(address ethAddress) public view returns (uint)
+    //  {
+    //      return addressToKey[ethAddress];
+    //  }
 
      function EstimateReward(uint key) public view returns (uint)
      {
-         require (rewardsBalance[key].isInList);   
+         require (rewardInfos[key].isInList);   
          uint current = block.timestamp;
-         uint prev = rewardsBalance[key].timestamp;
+         uint prev = rewardInfos[key].timestamp;
 
          uint nbTokens = (current - prev) * nbTokenPerSec;
          return nbTokens;
@@ -96,52 +115,71 @@ contract IdFundedRewarder is IdModificationListener
 
      function EstimateRewardForAddress(address ethAddress) public view returns (uint)
      {
-         uint key = addressToKey[ethAddress];
-         if (key > 0)
+         uint[] memory keys = addressToKeys[ethAddress];
+         uint nbTokens = 0;
+         for (uint i =0; i < keys.length;i++)
          {
-            uint current = block.timestamp;
-            uint prev = rewardsBalance[key].timestamp;
+            if (keys[i] > 0)
+            {
+                uint current = block.timestamp;
+                uint prev = rewardInfos[keys[i]].timestamp;
+                uint nbTokensKey = (current - prev) * nbTokenPerSec;
+                nbTokens += nbTokensKey;
 
-            uint nbTokens = (current - prev) * nbTokenPerSec;
-
-            return nbTokens;
+            }
          }
-         else
-         {
-             return 0;
-         }
+         return nbTokens;
      }
 
      function IsRegisteredAdress(address ethAddress) public view returns (bool)
      {
-         uint key = addressToKey[ethAddress];
-         if (key > 0)
+         uint[] memory keys = addressToKeys[ethAddress];
+       
+         for (uint i =0; i < keys.length;i++)
          {
-             return true;
+            if (keys[i] > 0)
+            {
+               return true;
+            }
          }
-         else
-         {
-             return false;
-         }
+         return false;
+
+        //  uint key = addressToKey[ethAddress];
+        //  if (key > 0)
+        //  {
+        //      return true;
+        //  }
+        //  else
+        //  {
+        //      return false;
+        //  }
      }
 
      function Claim() public
      {
-         uint key = addressToKey[msg.sender]; 
-         require(key > 0);
-         uint nbTokens = EstimateReward(key);
-         require(nbTokens > 0);
+         uint[] memory keys = addressToKeys[msg.sender];
+         uint nbTokens = 0;
+         for (uint i =0; i < keys.length;i++)
+         {
+            if (keys[i] > 0)
+            {
+                uint current = block.timestamp;
+                uint prev = rewardInfos[keys[i]].timestamp;
+                uint nbTokensKey = (current - prev) * nbTokenPerSec;
+                nbTokens += nbTokensKey;
+                rewardInfos[keys[i]].timestamp = block.timestamp;
 
-        rewardsBalance[key].timestamp = block.timestamp;
+            }
+         }
         bool res = rewToken.transfer(msg.sender, nbTokens);
         require(res);
         
      }
 
      // *************************************** Debug ************************************************
-     function GetKey() public view returns (uint)
-     {
-        uint key = addressToKey[msg.sender]; 
-        return key;
-     }
+    //  function GetKey() public view returns (uint)
+    //  {
+    //     uint key = addressToKey[msg.sender]; 
+    //     return key;
+    //  }
 }
