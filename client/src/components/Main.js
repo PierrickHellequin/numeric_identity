@@ -31,6 +31,7 @@ class Main extends Component {
       theaccounts: null,
       rewarderContract: null,
       estimatedReward: 0,
+      intervalId: 0,
     };
 
     this.runInit = this.runInit.bind(this);
@@ -58,7 +59,18 @@ class Main extends Component {
     console.log("connect status: " + this.state.connectStatus);
 
     //  this.loadWeb3();
+
+    
+    this.state.intervalId = setInterval(() => {
+        this.runInit();
+      }, 1000);
+
   };
+
+  componentWillUnmount(){
+    clearInterval(this.state.intervalId);
+  }
+
 
   loadWeb3 = async () => {
     console.log("running loadweb3");
@@ -108,7 +120,7 @@ class Main extends Component {
         console.log("contract found");
       }
 
-      window.ethereum.on("accountsChanged", (accounts) => {
+      window.ethereum.on("accountsChanged", (accounts) => { 
         this.accountChanged(accounts);
       });
 
@@ -187,6 +199,8 @@ class Main extends Component {
               connectStatus={this.state.connectStatus}
               onClaim = {this.ClaimTransaction}
               RewardsAmountEstimated = {this.state.estimatedReward}
+              web3 = {this.state.theweb3}
+              account = {this.state.currentAccount}
             ></MainpageSelector>
 
           </div>
