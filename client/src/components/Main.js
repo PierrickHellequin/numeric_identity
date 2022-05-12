@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
 import NavbarSimple from "./NavbarSimple";
 import MainpageSelector from "./MainpageSelector";
 import getWeb3Click from "../getWeb3";
@@ -10,7 +12,9 @@ import getWeb3Click from "../getWeb3";
 // import LoadUser from "./components/usersData";
 
 // contracts
-//import IdRewarder from "../contracts/IdRewarder.json";
+import IdRewarder from "../contracts/IdFundedRewarder.json";
+
+
 
 // css
 import "../assets/css/appstyle.css";
@@ -68,9 +72,14 @@ class Main extends Component {
       const accounts = await web3.eth.getAccounts();
 
       if (web3.currentProvider != null && web3.eth.net != null) {
-        const networkId = await web3.eth.net.getId();
 
-        var instance = null;
+        console.log("provider ok");
+
+       
+
+        const networkId = await web3.eth.net.getId();
+        const deployedNetwork = IdRewarder.networks[networkId];
+        const instance = new web3.eth.Contract(IdRewarder.abi, deployedNetwork && deployedNetwork.address);
 
         const bal = await web3.eth.getBalance(accounts[0]);
         var chainname = "undefined";
@@ -80,6 +89,7 @@ class Main extends Component {
         // TODO: others networks ?
         var balEther = web3.utils.fromWei(bal, "ether");
 
+        console.log("chain "+chainname);
         // contract should be dployed here
 
         this.setState(
@@ -126,34 +136,34 @@ class Main extends Component {
   }
 
   updateEstimatedReward = async () => {
-    // const contract = this.state.rewarderContract;
-    // const accounts = this.state.accounts;
-    // if (accounts != null) {
-    //   const result = await contract.methods.EstimateRewardForAddress(accounts[0]).call();
-    //   const rewards = result;
-    //   this.setState({ estimatedReward: rewards });
-    // }
-    // console.log("update estimated rewards");
+    const contract = this.state.rewarderContract;
+    const accounts = this.state.theaccounts;
+    if (accounts != null) {
+      const result = await contract.methods.EstimateRewardForAddress(this.state.currentAccount).call();
+      const rewards = result;
+      this.setState({ estimatedReward: rewards });
+    }
+    console.log("update estimated rewards");
   };
 
   ClaimTransaction = async () => {
-    // const accounts = this.state.accounts;
-    // const contract = this.state.rewarderContract;
-    // try {
-    //   await contract.methods.Claim().send({ from: accounts[0] });
-    //   this.runInit();
-    // }
-    // catch (error) {
-    //   console.log(error);
-    // }
+    const accounts = this.state.theaccounts;
+    const contract = this.state.rewarderContract;
+    try {
+      await contract.methods.Claim().send({ from: this.state.currentAccount });
+      this.runInit();
+    }
+    catch (error) {
+      console.log(error);
+    }
   };
 
   runInit = async () => {
-    // const contract = this.state.rewarderContract;
-    // if (contract != null) {
-    //        // recup estimation rewards
-    //     this.updateEstimatedReward();
-    // }
+    const contract = this.state.rewarderContract;
+    if (contract != null) {
+           // recup estimation rewards
+        this.updateEstimatedReward();
+    }
   };
 
   render() {
@@ -175,8 +185,10 @@ class Main extends Component {
               onPageChangedClicked={this.handleLinkClicked}
               curPage={this.state.currentpage}
               connectStatus={this.state.connectStatus}
-              account={this.state.currentAccount}
+              onClaim = {this.ClaimTransaction}
+              RewardsAmountEstimated = {this.state.estimatedReward}
             ></MainpageSelector>
+
           </div>
         </div>
       </div>
