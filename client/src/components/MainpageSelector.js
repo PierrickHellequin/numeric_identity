@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Mainpage from "./Mainpage";
 import RewardsComp from "./RewardsComp";
 import Admin from "./admin";
+import Profil from "./Profil";
 class MainpageSelector extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +22,9 @@ class MainpageSelector extends Component {
       );
     } else if (this.props.curPage === 2) {
       return <Admin />;
+    }
+    else if(this.props.curPage === 3){
+      return <Profil account={this.props.account}/>
     }
   }
 }

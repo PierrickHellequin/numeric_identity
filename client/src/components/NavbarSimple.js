@@ -41,6 +41,9 @@ class NavbarSimple extends Component {
               <Nav.Link onClick={() => this.handleClick(1)} href="#reward">
                 Reward
               </Nav.Link>
+              <Nav.Link onClick={() => this.handleClick(3)} href="#profil">
+                Profil
+              </Nav.Link>
               <Nav.Link onClick={() => this.handleClick(2)} href="#admin">
                 Admin
               </Nav.Link>

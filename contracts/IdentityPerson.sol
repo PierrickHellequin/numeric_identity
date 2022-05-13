@@ -129,7 +129,7 @@ contract IdentityPerson {
         view
         returns (Person memory)
     {
-        require(msg.sender == personWallet, "Le wallet n'est pas le Bon");
+        require(msg.sender == personWallet, "Le wallet n'est pas le bon");
         return peopleWithWallet[msg.sender];
     }
 }

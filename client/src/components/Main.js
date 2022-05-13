@@ -55,7 +55,7 @@ class Main extends Component {
     // automatic connect only if no previous error
     console.log("connect status: " + this.state.connectStatus);
 
-  //  this.loadWeb3();
+    //  this.loadWeb3();
   };
 
   loadWeb3 = async () => {
@@ -173,12 +173,12 @@ class Main extends Component {
 
         <div className="container-fluid">
           <div className="row flex-nowrap">
-                <MainpageSelector
-                  onPageChangedClicked={this.handleLinkClicked}
-                  curPage={this.state.currentpage}
-                  connectStatus={this.state.connectStatus}
-                ></MainpageSelector>
-
+            <MainpageSelector
+              onPageChangedClicked={this.handleLinkClicked}
+              curPage={this.state.currentpage}
+              connectStatus={this.state.connectStatus}
+              account={this.state.currentAccount}
+            ></MainpageSelector>
           </div>
         </div>
       </div>
