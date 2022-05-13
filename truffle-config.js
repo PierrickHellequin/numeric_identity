@@ -21,7 +21,9 @@ module.exports = {
     },
     rinkeby: {
       provider: function() {
-        return new PrivateKeyProvider(`${process.env.PKEY}`, `https://rinkeby.infura.io/v3/${process.env.INFURA_ID}`);
+        //return new HDWalletProvider(`${process.env.MNEMONIC}`, `https://rinkeby.infura.io/v3/${process.env.INFURA_ID}`)
+        return new PrivateKeyProvider(process.env.PKEY, `https://rinkeby.infura.io/v3/${process.env.INFURA_ID}`);
+
       },
       network_id: 4
     }
