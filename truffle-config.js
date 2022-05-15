@@ -1,4 +1,5 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
+const PrivateKeyProvider = require("truffle-privatekey-provider");
 const path = require("path");
 require('dotenv').config();
 
@@ -17,6 +18,12 @@ module.exports = {
         return new HDWalletProvider(`${process.env.MNEMONIC}`, `https://kovan.infura.io/v3/${process.env.INFURA_ID}`)
       },
       network_id: 42
+    },
+    rinkeby: {
+      provider: function() {
+        return new PrivateKeyProvider(`${process.env.PKEY}`, `https://rinkeby.infura.io/v3/${process.env.INFURA_ID}`);
+      },
+      network_id: 4
     }
   },
 

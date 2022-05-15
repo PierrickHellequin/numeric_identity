@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Form, Button } from "react-bootstrap";
 import useForm from "../hooks/useForm";
 import getWeb3 from "../getWeb3";
@@ -81,9 +81,6 @@ const Profil = ({ account }) => {
 
   const saveIdentity = async () => {
 
-    console.log(data);
-    console.log(account);
-    console.log(data.name);
     await instanceIdentity.methods
       .registerPerson(
         account,
@@ -115,7 +112,7 @@ const Profil = ({ account }) => {
   return (
     <div>
       {account.length === 0 ? (
-        <p>Pour s enregistrer il faut etre connecté à son compte Metamask</p>
+        <p style={{paddingTop: "104px"}}>Pour s enregistrer il faut etre connecté à son compte Metamask</p>
       ) : (
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -187,7 +184,7 @@ const Profil = ({ account }) => {
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Bith city</Form.Label>
+            <Form.Label>Birth city</Form.Label>
             <Form.Control
               type="text"
               placeholder="Birth city"
