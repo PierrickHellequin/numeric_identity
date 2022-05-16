@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-
 import NavbarSimple from "./NavbarSimple";
 import MainpageSelector from "./MainpageSelector";
 import getWeb3Click from "../getWeb3";
@@ -12,6 +10,7 @@ import getWeb3Click from "../getWeb3";
 // import LoadUser from "./components/usersData";
 
 // contracts
+// Rewarder
 import IdRewarder from "../contracts/IdFundedRewarder.json";
 
 
@@ -84,14 +83,10 @@ class Main extends Component {
       const accounts = await web3.eth.getAccounts();
 
       if (web3.currentProvider != null && web3.eth.net != null) {
-
-        console.log("provider ok");
-
-       
-
         const networkId = await web3.eth.net.getId();
         const deployedNetwork = IdRewarder.networks[networkId];
         const instance = new web3.eth.Contract(IdRewarder.abi, deployedNetwork && deployedNetwork.address);
+
 
         const bal = await web3.eth.getBalance(accounts[0]);
         var chainname = "undefined";
@@ -101,7 +96,6 @@ class Main extends Component {
         // TODO: others networks ?
         var balEther = web3.utils.fromWei(bal, "ether");
 
-        console.log("chain "+chainname);
         // contract should be dployed here
 
         this.setState(
@@ -120,7 +114,7 @@ class Main extends Component {
         console.log("contract found");
       }
 
-      window.ethereum.on("accountsChanged", (accounts) => { 
+      window.ethereum.on("accountsChanged", (accounts) => {
         this.accountChanged(accounts);
       });
 
@@ -200,9 +194,8 @@ class Main extends Component {
               onClaim = {this.ClaimTransaction}
               RewardsAmountEstimated = {this.state.estimatedReward}
               web3 = {this.state.theweb3}
-              account = {this.state.currentAccount}
+              account={this.state.currentAccount}
             ></MainpageSelector>
-
           </div>
         </div>
       </div>

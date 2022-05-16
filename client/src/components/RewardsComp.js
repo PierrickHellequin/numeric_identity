@@ -410,6 +410,8 @@ class RewardsComp extends Component {
 
 
 
+
+
         <div className="input-container">
           <div className="input-title">Compound protocol</div>
           <div className="balance">Balance: {DaiBalance} DAI</div>
