@@ -28,7 +28,7 @@ const Mainpage = ({ account }) => {
       </section>
       <section className="our-services pt-5">
         <div className="container">
-          <h2 className="text-center">Our services</h2>
+          <h2 className="text-center home">Our services</h2>
           <ul>
             <li>
               <i className="fa-solid fa-gem"></i>
@@ -63,7 +63,7 @@ const Mainpage = ({ account }) => {
       </section>      
       <section className="process dark pt-5"> 
         <div className="container">
-          <h2 className="text-center">Work process</h2>
+          <h2 className="text-center home">Work process</h2>
           <ul>
             <li className="plan-line">
               <i className="fa-solid fa-pen-fancy"></i>
@@ -85,7 +85,7 @@ const Mainpage = ({ account }) => {
       </section>
       <section className="people pt-5"> 
         <div className="container">
-            <h2 className="text-center">Behind the people</h2>
+            <h2 className="text-center home">Behind the people</h2>
             <ul>
               <li>
                 <img src={people} alt="Pierrick Hellequin Developpeur"></img>

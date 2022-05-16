@@ -1,3 +1,32 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@PierrickHellequin 
+PierrickHellequin
+/
+numeric_identity
+Public
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+numeric_identity/client/src/App.css
+
+Laetitia Update design profil
+Latest commit acc79c4 2 hours ago
+ History
+ 1 contributor
+376 lines (336 sloc)  6.09 KB
+   
 ::selection {
   background-color: #272a33;
   color: #ffffff;
@@ -34,13 +63,16 @@ h2{
 h2:after{
   content:"";
   display: block;
-  width: 50px;
+  width: 100%;
   height: 2px;
   margin-right: auto;
   margin-left: auto;
   margin-top: 1rem;
 
   background-color: #fb3e3e;
+}
+h2.home:after{
+  width: 50px;
 }
 
 h3{
@@ -80,18 +112,16 @@ header .navbar{
   background-color: #272a33;
   box-shadow: 0 10px 33px rgb(0 0 0 / 10%);
 }
-
 header #logo{
   letter-spacing: 2px;
   font-family: "Poppins", sans-serif;
   font-weight: 700;
 }
-
 header .navbar .navbar-nav .nav-link{
   line-height: 26px;
   color: rgba(255, 255, 255, 0.6);
   font-size: 15px;
-  transition: all 0.5s;
+  transition: all 0.4s;
   padding: 15px 0;
   margin: 0 10px;
 }
@@ -136,7 +166,6 @@ footer .contact ul li a:hover{
   color: #fb3e3e;
   border-color: #fb3e3e;
 }
-
 footer .copyright{
   padding: 15px 0;
   background-color: #2e313a;
@@ -149,9 +178,53 @@ footer .copyright{
 }
 
 /* BUTTONS */ 
+button{
+  border: none;
+  background-color: transparent;
+  transition: all 0.4s;
+}
+
 button.btn-primary{
   background-color: #fb3e3e;
   border-color: #fb3e3e;
+}
+button.profil{
+  display: flex;
+  flex-direction: column;
+  transition: all .4s linear;
+  align-items: center;
+  position: relative;
+  border:none;
+  padding:.5rem;
+  background-color: #ffffff;
+  width: 100%;
+
+  color:#272a33;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px 0 rgb(0 0 0 / 20%);
+}
+button.profil i{
+  font-size:3rem;
+  color: #fb3e3e;
+}
+button.profil:hover{
+  background-color: #fb3e3e;
+  color:#ffffff;
+}
+button.profil:hover i{
+  color:#ffffff;
+}
+
+button.only-icon{
+  color:#fb3e3e;
+  font-size: 1.2rem;
+}
+button.only-icon span{
+  margin-left:.5rem;
+}
+button.only-icon:hover{
+  color:#212529;
 }
 
 /* HOME PAGE */
@@ -288,5 +361,45 @@ section.people ul li img{
 }
 section.people ul li p{
   font-size: .75rem;
+  border-bottom: 1px solid #ecf0f5;
+}
+
+/* PROFIL */
+section.actions ul{
+ display: flex;
+}
+section.actions ul li{
+  width: 100%;
+  padding:0.75rem;
+ }
+
+section.family ul{
+  display: flex;
+  flex-wrap: wrap;
+}
+section.family ul li{
+  width: 50%;
+  padding: 1rem;
+}
+section.family ul li .people{
+  padding:1rem;
+  display: flex;
+  flex-direction: column;
+
+  border-radius:.25rem;
+  border: 1px solid #ecf0f5;
+  box-shadow: 0 0 1.25rem rgb(108 118 134 / 10%);
+}
+section.family ul li .top{
+  display: flex;
+  justify-content: space-between;
+}
+section.family ul li .top p{
+  margin:0;
+  padding:0;
+}
+section.family ul li .bottom{
+  display: flex;
+  justify-content: space-between;
   border-bottom: 1px solid #ecf0f5;
 }

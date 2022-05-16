@@ -3,53 +3,10 @@ import { Row, Form, Button } from "react-bootstrap";
 import useForm from "../hooks/useForm";
 import getWeb3 from "../getWeb3";
 import identityContract from "../contracts/IdentityPerson.json";
+import AddParentForm from "./Form/AddParentForm";
+import AddChildForm from "./Form/AddChildForm";
 
 const Profil = ({ account }) => {
-  const {
-    handleSubmit, // handles form submission
-    handleChange, // handles input changes
-    data, // access to the form data
-    errors, // includes the errors to show
-  } = useForm({
-    validations: {
-      name: {
-        pattern: {
-          value: "^[A-Za-z]*$",
-          message: "Votre nom doit comporter que des lettres.",
-        },
-        required: {
-          value: true,
-          message: "This field is required",
-        },
-      },
-      lastName: {
-        pattern: {
-          value: "^[A-Za-z]*$",
-          message: "Votre prénom doit comporter que des lettres.",
-        },
-        required: {
-          value: true,
-          message: "This field is required",
-        },
-      },
-      otherName: {
-        pattern: {
-          value: "^[A-Za-z]*$",
-          message: "Votre prénom doit comporter que des lettres.",
-        },
-      },
-    },
-    onSubmit: () => saveIdentity(),
-    initialValues: {
-      // used to initialize the data
-      name: "John",
-      lastName: "Hellequin",
-      birthGender: "Femme",
-      birthCountry: "Guinée",
-      otherName: "",
-      birthCity: "Wattrelos"
-    },
-  });
   const [instanceIdentity, setInstanceIdentity] = useState({});
 
   const loadContract = async () => {
@@ -65,7 +22,7 @@ const Profil = ({ account }) => {
       console.log(instanceIdentity);
       let dataIdentty = await instanceIdentity.methods
         .getPersonbyWallet(account)
-        .call()
+        .call({from: account})
         .then((res) => {
           console.log(res);
         })
@@ -79,21 +36,39 @@ const Profil = ({ account }) => {
     }
   };
 
-  const saveIdentity = async () => {
-
+  const saveIdentity = async (data) => {
     await instanceIdentity.methods
       .registerPerson(
         account,
         data.name,
         data.lastName,
         data.otherName,
-        data.birthDate,
-        "00:00:00",
+        Date.parse(data.birthDate),
         data.birthCountry,
         data.birthCity,
         data.birthGender
       )
-      .send({from: account})
+      .send({ from: account })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  };
+
+  const saveParent = async (data) => {
+    console.log(data);
+    await instanceIdentity.methods
+      .registerParent(
+        account,
+        data.name,
+        data.lastName,
+        data.Country,
+        data.typeDocument,
+        data.numberDocument
+      )
+      .send({ from: account })
       .then((res) => {
         console.log(res);
       })
@@ -110,110 +85,95 @@ const Profil = ({ account }) => {
   }, [account]);
 
   return (
-    <div>
+    
+    <div className="container pt-5">
       {account.length === 0 ? (
-        <p style={{paddingTop: "104px"}}>Pour s enregistrer il faut etre connecté à son compte Metamask</p>
+        <p style={{ paddingTop: "104px" }}>
+          Pour s enregistrer il faut etre connecté à son compte Metamask
+        </p>
       ) : (
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Wallet address</Form.Label>
-            <Form.Control
-              disabled
-              type="text"
-              placeholder="Enter votre wallet"
-              value={account}
-            />
-          </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Name *</Form.Label>
-            <Form.Control
-              value={data.name || ""}
-              onChange={handleChange("name")}
-              type="text"
-              placeholder="Name"
-              required
-            />
-            {errors.name && <p className="error">{errors.name}</p>}
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Last name *</Form.Label>
-            <Form.Control
-              value={data.lastName || ""}
-              onChange={handleChange("lastName")}
-              type="text"
-              required
-            />
-            {errors.lastName && <p className="error">{errors.lasrName}</p>}
-          </Form.Group>
+       <div style={{ paddingTop: "104px" }}>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Other name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Other name"
-              value={data.otherName || ""}
-              onChange={handleChange("otherName")}
-            />
-            {errors.otherName && <p className="error">{errors.otherName}</p>}
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Birth date *</Form.Label>
-            <Form.Control
-              type="datetime-local"
-              value={data.birthDate || ""}
-              onChange={handleChange("birthDate")}
-              required
-            />
-            {errors.birthDate && <p className="error">{errors.birthDate}</p>}
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Birth country</Form.Label>
-            <Form.Select
-              value={data.birthCountry || ""}
-              onChange={handleChange("birthCountry")}
-            >
-              <option>Guinée</option>
-              <option>France</option>
-            </Form.Select>
-            {errors.birthCountry && (
-              <p className="error">{errors.birthCountry}</p>
-            )}
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Birth city</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Birth city"
-              value={data.birthCity || ""}
-              onChange={handleChange("birthCity")}
-            />
-            {errors.bithCity && (
-              <p className="error">{errors.birthCity}</p>
-            )}
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Birth gender</Form.Label>
-            <Form.Select
-              value={data.birthGender || ""}
-              onChange={handleChange("birthGender")}
-            >
-              <option>Femme</option>
-              <option>Homme</option>
-            </Form.Select>
-            {errors.birthGender && (
-              <p className="error">{errors.birthGender}</p>
-            )}
-          </Form.Group>
-
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
+       <AddParentForm account={account} saveParent={saveParent} />
+       
+        <section className="actions">
+          <h2>Action</h2>
+          <ul>
+            <li><button className="profil"><i class="fa-solid fa-user-plus"></i>Ajouter un enfant</button> </li>
+            <li><button className="profil"><i class="fa-solid fa-user-pen"></i>Modifier un enfant</button> </li>
+          </ul>
+        </section>
+        <section className="family">
+          <h2>Mes informations</h2>
+          <ul>
+            <li>
+              <div className="people">
+                <div className="top">
+                  <div>
+                    <p><span>Nom Prénom</span></p>
+                    <p>Autre prénom / Autre prénom</p>
+                    <p>Masculin</p>
+                  </div>
+                  <div>
+                    <button className="only-icon"><i class="fa-solid fa-pencil"></i></button>
+                    <button className="only-icon"><i class="fa-solid fa-xmark"></i></button>
+                  </div>
+                </div>
+                <div className="bottom">
+                  <p>00/00/0000</p>
+                  <p>Country</p>
+                  <p>City</p>
+                </div>
+                <button className="only-icon pt-4"><i class="fa-solid fa-download"></i><span>Télécharger acte de naissance</span></button>
+              </div>
+            </li>
+            <li>
+              <div className="people">
+                <div className="top">
+                  <div>
+                    <p><span>Nom Prénom</span></p>
+                    <p>Autre prénom / Autre prénom</p>
+                    <p>Masculin</p>
+                  </div>
+                  <div>
+                    <button className="only-icon"><i class="fa-solid fa-pencil"></i></button>
+                    <button className="only-icon"><i class="fa-solid fa-xmark"></i></button>
+                  </div>
+                </div>
+                <div className="bottom">
+                  <p>00/00/0000</p>
+                  <p>Country</p>
+                  <p>City</p>
+                </div>
+                <button className="only-icon pt-4"><i class="fa-solid fa-download"></i><span>Télécharger acte de naissance</span></button>
+              </div>
+            </li>
+            <li>
+              <div className="people">
+                <div className="top">
+                  <div>
+                    <p><span>Nom Prénom</span></p>
+                    <p>Autre prénom / Autre prénom</p>
+                    <p>Masculin</p>
+                  </div>
+                  <div>
+                    <button className="only-icon"><i class="fa-solid fa-pencil"></i></button>
+                    <button className="only-icon"><i class="fa-solid fa-xmark"></i></button>
+                  </div>
+                </div>
+                <div className="bottom">
+                  <p>00/00/0000</p>
+                  <p>Country</p>
+                  <p>City</p>
+                </div>
+                <button className="only-icon pt-4"><i class="fa-solid fa-download"></i><span>Télécharger acte de naissance</span></button>
+              </div>
+            </li>
+          </ul>
+        </section>
+        <AddChildForm account={account} saveChild={saveIdentity}/>
+        </div>
       )}
     </div>
   );

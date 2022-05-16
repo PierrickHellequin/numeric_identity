@@ -1,29 +1,35 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.13;
+pragma solidity 0.8.14;
 
-contract IdentityPerson {
+import "./Verifier.sol";
+// @title Contract for the identity of an human
+// @author Pierrick Hellequin
+// @notice This contract 
+// @custom:certication This is an contrat create for the certification alyra
+contract IdentityPerson is Verifier{
+
     address defaultAdress;
     enum DocumentLegal {
         Passport,
         Securitesocial,
         permisConduire
     }
+
     enum TypeGeneration {
         Child,
-        Adult,
-        older
+        Adult
     }
 
     struct Parent {
         address ownerAddress;
+        TypeGeneration categorieAge;
         string name;
         string lastName;
-        string gender;
         string country;
-        DocumentLegal document;
+        string document;
         uint256 numberDocument;
+        bool alive;
         bytes20 identifiantUnique;
-        bool validate;
     }
 
     struct Person {
@@ -33,21 +39,19 @@ contract IdentityPerson {
         string name;
         string lastName;
         string otherName;
-        string birthDate;
-        string bithHour;
+        uint256 birthDate;
         string birthCity;
         string birthGender;
         string birthCountry;
+        bool alive;
         bool validate;
     }
 
-    // Information d'une personne liée à un identifiant unique
-    mapping(bytes20 => Person) private people;
-    // Information d'une personne liée à un wallet
+    /// @notice Information of a person linked to a wallet
     mapping(address => Person) private peopleWithWallet;
-    // Parent liée à une addresse
-    mapping(bytes20 => Parent) private parent;
-    //Event, register a person
+    /// @notice Information of a parent linked to a wallet
+    mapping(address => Parent) private parentWithWallet;
+    /// @notice Event, register a person
     event registerPeople(
         bytes20 identifiantUnique,
         address validateBy,
@@ -55,22 +59,89 @@ contract IdentityPerson {
         string name,
         string lastName,
         string otherName,
-        string birthDate,
-        string bithHour,
+        uint256 birthDate,
         string birthCity,
         string birthGender,
         string birthCountry,
+        bool alive,
         bool validate
     );
 
-    //Enregistrer des personnes
+    event registerParentEvent(
+        address _ownerAddress,
+        TypeGeneration,
+        string name,
+        string lastName,
+        string country,
+        string document,
+        uint256 numberDocument,
+        bool alive,
+        bytes20 idPerson
+    );
+
+    /// @notice Function to save the identity of the owner of the wallet (the parent)
+    /// @param  _ownerAddress : The address of the owner of this identity
+    /// @param _name : Name of this identity
+    /// @param _lastName : lastname of this identity
+    /// @param _country : country of this identity 
+    /// @param _document: type of document (Passport, Secrurity social, drive license)
+    /// @param  _numberDocument: number associated with the type of document
+    function registerParent(
+        address _ownerAddress,
+        string memory _name,
+        string memory _lastName,
+        string memory _country,
+        string memory _document,
+        uint256 _numberDocument
+    ) public {
+        require(
+            _ownerAddress == msg.sender,
+            "L adresse specifie ne corresponds pas."
+        );
+        bytes20 idPerson = bytes20(
+            keccak256(abi.encode(msg.sender, blockhash(block.number - 1)))
+        );
+
+        parentWithWallet[msg.sender] = Parent(
+            _ownerAddress,
+            TypeGeneration.Adult,
+            _name,
+            _lastName,
+            _country,
+            _document,
+            _numberDocument,
+            true,
+            idPerson
+        );
+
+        emit registerParentEvent(
+            _ownerAddress,
+            TypeGeneration.Adult,
+            _name,
+            _lastName,
+            _country,
+            _document,
+            _numberDocument,
+            true,
+            idPerson
+        );
+    }
+
+    /// @notice Function to save the children of the owner address
+    /// @param _ownerAddress Address of the parent of the child
+    /// @param _name Name of the child 
+    /// @param _lastName Last name of the child
+    /// @param _otherName other name of the child
+    /// @param _birthDate Birth date at the birth child
+    /// @param _birthCountry Country at the birth child
+    /// @param _birthCity City at the birth child
+    /// @param _birthGender Gender at birth of child 
     function registerPerson(
         address _ownerAddress,
         string memory _name,
         string memory _lastName,
         string memory _otherName,
-        string memory _birthDate,
-        string memory _birthHour,
+        uint256 _birthDate,
         string memory _birthCountry,
         string memory _birthCity,
         string memory _birthGender
@@ -92,10 +163,10 @@ contract IdentityPerson {
             _lastName,
             _otherName,
             _birthDate,
-            _birthHour,
             _birthCity,
             _birthGender,
             _birthCountry,
+            true,
             false
         );
 
@@ -103,33 +174,45 @@ contract IdentityPerson {
             idPerson,
             defaultAdress,
             TypeGeneration.Child,
-            "Pierrick",
+            _name,
             _lastName,
             _otherName,
             _birthDate,
-            _birthHour,
             _birthCity,
             _birthGender,
             _birthCountry,
+            true,
             false
         );
 
-        // people[idPerson].push(ownPerson);
     }
 
-    //Valider des personnes par l'état
-    function validatePerson(address personWallet) public {
-        peopleWithWallet[personWallet].validate = true;
-        peopleWithWallet[personWallet].validateBy = msg.sender;
+    /// @notice Validate child by the validator (State, hospital, town hall)
+    /// @param peopleWallet address wallet of the person to validate
+    function validatePerson(address peopleWallet) onlyVerifier public {
+        peopleWithWallet[peopleWallet].validate = true;
+        peopleWithWallet[peopleWallet].validateBy = msg.sender;
     }
 
-    //Modifier des données
-    function getPersonbyWallet(address personWallet)
-        public
+    /// @notice Get a person data by his wallet
+    /// @param peopleWallet address wallet of the person to get the data
+    function getPersonbyWallet(address peopleWallet)
+        private
         view
         returns (Person memory)
     {
-        require(msg.sender == personWallet, "Le wallet n'est pas le bon");
+        require(msg.sender == peopleWallet, "Le wallet n'est pas le bon");
         return peopleWithWallet[msg.sender];
+    }
+
+    /// @notice Get a parent data by his wallet
+    /// @param parentWallet address wallet of the parent to get the data
+    function getParentbyWallet(address parentWallet)
+        private
+        view
+        returns (Parent memory)
+    {
+        require(msg.sender == parentWallet, "Le wallet n'est pas le bon");
+        return parentWithWallet[msg.sender];
     }
 }
