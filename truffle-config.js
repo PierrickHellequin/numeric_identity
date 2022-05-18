@@ -11,7 +11,7 @@ module.exports = {
     development: {
       host: "127.0.0.1",     // Localhost (default: none)
       port:8545,            // Standard Ethereum port (default: none)
-      network_id: "8545",       // Any network (default: none)
+      network_id: "5777",       // Any network (default: none)
     },
     kovan: {
       provider: function() {
@@ -21,7 +21,9 @@ module.exports = {
     },
     rinkeby: {
       provider: function() {
-        return new PrivateKeyProvider(`${process.env.PKEY}`, `https://rinkeby.infura.io/v3/${process.env.INFURA_ID}`);
+        //return new HDWalletProvider(`${process.env.MNEMONIC}`, `https://rinkeby.infura.io/v3/${process.env.INFURA_ID}`)
+        return new PrivateKeyProvider(process.env.PKEY, `https://rinkeby.infura.io/v3/${process.env.INFURA_ID}`);
+
       },
       network_id: 4
     }
