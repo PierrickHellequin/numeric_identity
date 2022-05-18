@@ -18,7 +18,11 @@ class MainpageSelector extends Component {
       return <Mainpage />;
     } else if (this.props.curPage === 1) {
       return (
-        <RewardsComp onClaim={this.props.onClaim} RewardsAmountEstimated={0} />
+        <RewardsComp onClaim = {this.props.onClaim}
+        RewardsAmountEstimated= {this.props.RewardsAmountEstimated}
+        web3 = {this.props.web3}
+        account = {this.props.account} />
+
       );
     } else if (this.props.curPage === 2) {
       return <Admin />;
