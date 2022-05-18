@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 import "./IdModificationListener.sol";
-import "./RewardToken.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-
 
 // todo: events
 // todo: doc solidity
 // todo: change owner (in deploy) so that main contract can register
+
+
+interface IERC20 {
+   function transfer(address recipient, uint256 amount) external returns (bool);
+}
 
 
 
@@ -25,7 +27,7 @@ contract IdFundedRewarder is IdModificationListener
         uint indexInArray;
     }
 
-     // Key == 0 => unused !!!
+    
      mapping (uint => RewardInfo) private rewardInfos;
 
 
@@ -36,20 +38,17 @@ contract IdFundedRewarder is IdModificationListener
      uint nbRegisteredAddresses = 0;
     
     // Reward
-    ERC20 private rewToken;
+    IERC20 private rewToken;
 
 
-    constructor() public 
-    {
-    }
-
+ 
     // /// @notice setRewardToken
     // /// @dev 
     // /// @param RewTokenAddress
     // /// @return
     function setRewardToken(address RewTokenAddress) public onlyOwner
     {
-        rewToken = ERC20(RewTokenAddress);
+        rewToken = IERC20(RewTokenAddress);
     }
 
     // /// @notice 
