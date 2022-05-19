@@ -268,47 +268,46 @@ class RewardsComp extends Component {
 
   componentDidMount = async () => {
 
+    if ((typeof this.props.web3 !== 'undefined') && (this.props.web3 !== null))
+    {
+      const networkId = await this.props.web3.eth.net.getId();
+      const deployedNetwork = RewardTokenDai.networks[networkId];
+      // ganache mode
+      // const instanceDai = new this.props.web3.eth.Contract(RewardTokenDai.abi, deployedNetwork && deployedNetwork.address);
+      // const instanceUbi = new this.props.web3.eth.Contract(RewardTokenDai.abi, deployedNetwork && deployedNetwork.address);
 
-    const networkId = await this.props.web3.eth.net.getId();
-    const deployedNetwork = RewardTokenDai.networks[networkId];
-    // ganache mode
-    // const instanceDai = new this.props.web3.eth.Contract(RewardTokenDai.abi, deployedNetwork && deployedNetwork.address);
-    // const instanceUbi = new this.props.web3.eth.Contract(RewardTokenDai.abi, deployedNetwork && deployedNetwork.address);
+      let instanceDai = new this.props.web3.eth.Contract(abiDai, daiAdress);
+      // TODO: ubi on rinkeby
+      let instanceUbi = new this.props.web3.eth.Contract(abiDai, daiAdress);
 
-    let instanceDai = new this.props.web3.eth.Contract(abiDai, daiAdress);
-    // TODO: ubi on rinkeby
-    let instanceUbi = new this.props.web3.eth.Contract(abiDai, daiAdress);
+      let instanceCDai = new this.props.web3.eth.Contract(abiJson, cdaiAddress);
 
-    let instanceCDai = new this.props.web3.eth.Contract(abiJson, cdaiAddress);
-
-    var balanceDAI = await instanceDai.methods.balanceOf(this.props.account).call();
-    var balanceUBI = await instanceUbi.methods.balanceOf(this.props.account).call();
-    var balanceCDAI = await instanceCDai.methods.balanceOf(this.props.account).call();
-    var exRate =  await getExchangeRate();
-
-
-    this.setState({
-      daiContract: instanceDai,
-      daiBalance: balanceDAI,
-      ubiBalance: balanceUBI,
-      cDaiBalance: balanceCDAI,
-      supply: 0,
-      receiving: 0,
-      mySupply: 0,
-      totalSupply: 0,
-      supplyAPI: 0,
-      exchangeRate: exRate,
-      showErr: false,
-      // for withdraw
-      withdraw: 0,
-      received: 0,
-     
+      var balanceDAI = await instanceDai.methods.balanceOf(this.props.account).call();
+      var balanceUBI = await instanceUbi.methods.balanceOf(this.props.account).call();
+      var balanceCDAI = await instanceCDai.methods.balanceOf(this.props.account).call();
+      var exRate = await getExchangeRate();
 
 
-    });
+      this.setState({
+        daiContract: instanceDai,
+        daiBalance: balanceDAI,
+        ubiBalance: balanceUBI,
+        cDaiBalance: balanceCDAI,
+        supply: 0,
+        receiving: 0,
+        mySupply: 0,
+        totalSupply: 0,
+        supplyAPI: 0,
+        exchangeRate: exRate,
+        showErr: false,
+        // for withdraw
+        withdraw: 0,
+        received: 0,
+      });
+    }
 
 
-  };
+  }
 
   handleClick() {
     this.props.onClaim();
