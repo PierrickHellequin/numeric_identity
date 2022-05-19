@@ -3,10 +3,37 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./IdModificationListener.sol";
 
-// todo: events
-// todo: doc solidity
-// todo: change owner (in deploy) so that main contract can register
 
+
+library SafeMath {
+
+  function mul(uint256 a, uint256 b) internal pure returns (uint256) {
+    if (a == 0) {
+      return 0;
+    }
+    uint256 c = a * b;
+    assert(c / a == b);
+    return c;
+  }
+
+  function div(uint256 a, uint256 b) internal pure returns (uint256) {
+    // assert(b > 0); // Solidity automatically throws when dividing by 0
+    uint256 c = a / b;
+    // assert(a == b * c + a % b); // There is no case in which this doesn't hold
+    return c;
+  }
+
+  function sub(uint256 a, uint256 b) internal pure returns (uint256) {
+    assert(b <= a);
+    return a - b;
+  }
+
+  function add(uint256 a, uint256 b) internal pure returns (uint256) {
+    uint256 c = a + b;
+    assert(c >= a);
+    return c;
+  }
+}
 
 
 
@@ -16,6 +43,8 @@ import "./IdModificationListener.sol";
 /// @notice This rewards registered couples (id,EthereumAddress) regularly
 contract IdFundedRewarder is IdModificationListener
 {
+    using SafeMath for uint256;
+
     struct RewardInfo
     {
         bool isInList;
@@ -29,7 +58,7 @@ contract IdFundedRewarder is IdModificationListener
      mapping (address => bytes20[]) private addressToKeys;
      
      uint private nbTokenPerSec = 1;// in wei per sec
-     uint nbRegisteredAddresses = 0;
+     uint private nbRegisteredAddresses = 0;
     
     // Reward Token
     IERC20 private rewToken;
@@ -138,11 +167,11 @@ contract IdFundedRewarder is IdModificationListener
         require (rewardInfos[key].isInList,"ID not in list");   
         uint indexInArray = rewardInfos[key].indexInArray;
         // remove this key from the keys associated to this adress
-       bytes20[] storage arrayOfKeys = addressToKeys[rewardInfos[key].ethereumAddress];
-       if (indexInArray > 0)
-           arrayOfKeys[indexInArray] = arrayOfKeys[arrayOfKeys.length - 1];
+        bytes20[] storage arrayOfKeys = addressToKeys[rewardInfos[key].ethereumAddress];
+        if (indexInArray > 0)
+            arrayOfKeys[indexInArray] = arrayOfKeys[arrayOfKeys.length - 1];
 
-       arrayOfKeys.pop();
+        arrayOfKeys.pop();
 
         // add the key to the new adress
         addressToKeys[newAddress].push(key);
@@ -202,7 +231,8 @@ contract IdFundedRewarder is IdModificationListener
                uint current = block.timestamp;
                uint prev = rewardInfos[keys[i]].timestamp;
                uint nbTokensKey = (current - prev) * nbTokenPerSec;
-               nbTokens += nbTokensKey;
+               nbTokens = nbTokens.add(nbTokensKey);
+               //nbTokens += nbTokensKey;
            }
         }
         return nbTokens;
@@ -227,7 +257,8 @@ contract IdFundedRewarder is IdModificationListener
                uint current = block.timestamp;
                uint prev = rewardInfos[keys[i]].timestamp;
                uint nbTokensKey = (current - prev) * nbTokenPerSec;
-               nbTokens += nbTokensKey;
+               nbTokens = nbTokens.add(nbTokensKey);
+               //nbTokens += nbTokensKey;
                rewardInfos[keys[i]].timestamp = block.timestamp;
            }
         }

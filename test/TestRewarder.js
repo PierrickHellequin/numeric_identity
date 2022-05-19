@@ -15,6 +15,19 @@ contract("IdFundedRewarder", accounts => {
   var id2 = "0xbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   var id3 = "0xcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
+  var id4 = "0xdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+  var id5 = "0xeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+  var id6 = "0xfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+  var id7 = "0xabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+  var id8 = "0xacaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+  var id9 = "0xadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+  var id10 ="0xaeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+  var id11 ="0xafaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+  var id12 ="0xa1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
+  var id13 ="0xa2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
+
   // rinkeby mode
   // var theaccount = "0x1AEA6e9F801E65c9967D061d8202C3dFc3447220";
 
@@ -114,10 +127,6 @@ contract("IdFundedRewarder", accounts => {
     var balanceContract = await daiInstance.balanceOf(RewarderInstance.address);
     var balanceContract2 = web3.utils.fromWei(balanceContract, 'ether');
 
-
-
-
-
     const amount3bis = await RewarderInstance.EstimateRewardForAddress.call(account3);
     const amount3bisN = amount3bis.toNumber();
 
@@ -130,6 +139,40 @@ contract("IdFundedRewarder", accounts => {
     //assert.equal(amount3bisN,balanceN, "should not have rewards left to claim for now");
     // use a tolerance here as I don't know why but we have 86411 between blocks timestamps
     assert.equal((Math.abs(balanceN-amount3bisN) < 20),true, "claimed amount is incorrect");
+   
+  });
+
+  it("...A unique address should be able to manage multiple IDs.", async () => {
+    const RewarderInstance = await IdFundedRewarder.deployed();
+    
+    // 2eme id associé à account0
+    await RewarderInstance.RegisterAddress(id4, account0, { from: theaccount });
+    //
+    await RewarderInstance.RegisterAddress(id5, account0, { from: theaccount });
+    await RewarderInstance.RegisterAddress(id6, account0, { from: theaccount });
+    await RewarderInstance.RegisterAddress(id7, account0, { from: theaccount });
+    await RewarderInstance.RegisterAddress(id8, account0, { from: theaccount });
+    await RewarderInstance.RegisterAddress(id9, account0, { from: theaccount });
+    await RewarderInstance.RegisterAddress(id10, account0, { from: theaccount });
+    await RewarderInstance.RegisterAddress(id11, account0, { from: theaccount });
+    await RewarderInstance.RegisterAddress(id12, account0, { from: theaccount });
+
+    // This one should not be added (10 max)
+    var iserror = false;
+    try {
+      await RewarderInstance.RegisterAddress(id13, account0, { from: theaccount });
+    } 
+    catch (error)
+    {
+      iserror = true;
+    }
+    if (!iserror)
+    {
+      assert.equal(1,0, "Adding 11 ID should trigger an exception");
+    }
+
+
+
    
   });
 
