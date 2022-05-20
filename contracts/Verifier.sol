@@ -3,7 +3,7 @@ pragma solidity 0.8.14;
 
 // @title Contract verifier for the identity of an human
 // @author Pierrick Hellequin
-// @notice This contract
+// @notice This contract add/update verifier
 // @custom:certication This is an contrat create for the certification alyra
 contract Verifier {
     enum TypeValidateur {
@@ -17,19 +17,35 @@ contract Verifier {
         string country;
         string city;
         string streetAddress;
-        TypeValidateur typeVlidateur;
+        TypeValidateur typeValidateur;
+        bool active;
     }
 
     mapping(address => verifier) private mapVerifier;
-    mapping(address => bool) private verifierByAddress;
 
+    event addVerifierEvent(address _veriferAddress, string  _country, string  _city, string  _streetAddress, TypeValidateur  _typeValidateur);
+    /// @notice Create a MODIFIER to validate that only the verifier can execute some functions
     modifier onlyVerifier() {
-        require(verifierByAddress[msg.sender] = true, "Not a verifier");
+        require(mapVerifier[msg.sender].active == true, "Only verifier can execute this function");
         _;
     }
 
+    /// @notice Create a MODIFIER to validate that only the verifier can execute some functions
+    modifier notVerifier() {
+        require(mapVerifier[msg.sender].active == false, "Only not verifier can register informations.");
+        _;
+    }
+
+    //@notice Add by default the deployer as verifier
     constructor() {
-        verifierByAddress[msg.sender] = true;
+        mapVerifier[msg.sender] = verifier(
+            msg.sender,
+            "@solidyLand",
+            "@truffle",
+            "@rue de la joie",
+            TypeValidateur.state,
+            true
+        );
     }
 
     /// @notice Function to save the identity of the owner of the wallet (the parent)
@@ -45,17 +61,25 @@ contract Verifier {
         string memory _streetAddress,
         TypeValidateur  _typeValidateur
     ) public onlyVerifier {
-        require(_typeValidateur == TypeValidateur.hospital || _typeValidateur == TypeValidateur.state ||_typeValidateur == TypeValidateur.townHall, "Mauvais type validateur");
+        
+        require(_typeValidateur == TypeValidateur.hospital || _typeValidateur == TypeValidateur.state ||_typeValidateur == TypeValidateur.townHall, "Wrong type of validator");
+        require(mapVerifier[_veriferAddress].active == false, "Already exist");
 
         mapVerifier[_veriferAddress] = verifier(
             _veriferAddress,
             _country,
             _city,
             _streetAddress,
-            _typeValidateur
+            _typeValidateur,
+            true
         );
 
-        verifierByAddress[_veriferAddress] = true;
+        emit addVerifierEvent(_veriferAddress, _country, _city, _streetAddress,  _typeValidateur);
     }
+
+    /// @notice Get my information of verifier
+    function getMapVerifier() public view returns(verifier memory){
+        return mapVerifier[msg.sender]; 
+    } 
 
 }

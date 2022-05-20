@@ -2,12 +2,12 @@
 pragma solidity 0.8.14;
 
 import "./Verifier.sol";
+
 // @title Contract for the identity of an human
 // @author Pierrick Hellequin
-// @notice This contract 
+// @notice This contract
 // @custom:certication This is an contrat create for the certification alyra
-contract IdentityPerson is Verifier{
-
+contract IdentityPerson is Verifier {
     address defaultAdress;
     enum DocumentLegal {
         Passport,
@@ -28,13 +28,14 @@ contract IdentityPerson is Verifier{
         string country;
         string document;
         uint256 numberDocument;
+        uint16 nbChildren;
         bool alive;
         bytes20 identifiantUnique;
     }
 
     struct Person {
-        bytes20 identifiantUnique;
         address validateBy;
+        address parentWallet;
         TypeGeneration categorieAge;
         string name;
         string lastName;
@@ -47,14 +48,17 @@ contract IdentityPerson is Verifier{
         bool validate;
     }
 
-    /// @notice Information of a person linked to a wallet
-    mapping(address => Person) private peopleWithWallet;
     /// @notice Information of a parent linked to a wallet
     mapping(address => Parent) private parentWithWallet;
+    /// @notice Information of a parent linked to a unique ID
+    mapping(address => bytes20) private parentWithChild;
+    /// @notice Information of a person linked to a wallet
+    mapping(bytes20 => Person) private peopleByIdentifiant;
+
     /// @notice Event, register a person
     event registerPeople(
-        bytes20 identifiantUnique,
-        address validateBy,
+        bytes20 idPerson,
+        address parentWallet,
         TypeGeneration categorieAge,
         string name,
         string lastName,
@@ -75,6 +79,7 @@ contract IdentityPerson is Verifier{
         string country,
         string document,
         uint256 numberDocument,
+        uint16 nbChildren,
         bool alive,
         bytes20 idPerson
     );
@@ -83,20 +88,20 @@ contract IdentityPerson is Verifier{
     /// @param  _ownerAddress : The address of the owner of this identity
     /// @param _name : Name of this identity
     /// @param _lastName : lastname of this identity
-    /// @param _country : country of this identity 
+    /// @param _country : country of this identity
     /// @param _document: type of document (Passport, Secrurity social, drive license)
     /// @param  _numberDocument: number associated with the type of document
-    function registerParent(
+    function registerParent (
         address _ownerAddress,
         string memory _name,
         string memory _lastName,
         string memory _country,
         string memory _document,
         uint256 _numberDocument
-    ) public {
+    )  notVerifier public {
         require(
-            _ownerAddress == msg.sender,
-            "L adresse specifie ne corresponds pas."
+            parentWithWallet[_ownerAddress].ownerAddress != _ownerAddress,
+            "The parent already exist"
         );
         bytes20 idPerson = bytes20(
             keccak256(abi.encode(msg.sender, blockhash(block.number - 1)))
@@ -110,6 +115,7 @@ contract IdentityPerson is Verifier{
             _country,
             _document,
             _numberDocument,
+            0,
             true,
             idPerson
         );
@@ -122,6 +128,7 @@ contract IdentityPerson is Verifier{
             _country,
             _document,
             _numberDocument,
+            0,
             true,
             idPerson
         );
@@ -129,13 +136,13 @@ contract IdentityPerson is Verifier{
 
     /// @notice Function to save the children of the owner address
     /// @param _ownerAddress Address of the parent of the child
-    /// @param _name Name of the child 
+    /// @param _name Name of the child
     /// @param _lastName Last name of the child
     /// @param _otherName other name of the child
     /// @param _birthDate Birth date at the birth child
     /// @param _birthCountry Country at the birth child
     /// @param _birthCity City at the birth child
-    /// @param _birthGender Gender at birth of child 
+    /// @param _birthGender Gender at birth of child
     function registerPerson(
         address _ownerAddress,
         string memory _name,
@@ -145,19 +152,16 @@ contract IdentityPerson is Verifier{
         string memory _birthCountry,
         string memory _birthCity,
         string memory _birthGender
-    ) public {
-        require(
-            _ownerAddress == msg.sender,
-            "L adresse specifie ne corresponds pas."
-        );
-
+    )  public notVerifier returns(bytes20 ID){
+        require(parentWithWallet[_ownerAddress].ownerAddress == _ownerAddress, "Missing information on parent.");
+        require(parentWithWallet[_ownerAddress].nbChildren < 10, "The limit of registration is 10 child");
         bytes20 idPerson = bytes20(
             keccak256(abi.encode(msg.sender, blockhash(block.number - 1)))
         );
 
-        peopleWithWallet[msg.sender] = Person(
-            idPerson,
+        peopleByIdentifiant[idPerson] = Person(
             defaultAdress,
+            msg.sender,
             TypeGeneration.Child,
             _name,
             _lastName,
@@ -169,10 +173,13 @@ contract IdentityPerson is Verifier{
             true,
             false
         );
+
+        parentWithChild[msg.sender] = idPerson;
+        parentWithWallet[_ownerAddress].nbChildren = parentWithWallet[_ownerAddress].nbChildren +1;
 
         emit registerPeople(
             idPerson,
-            defaultAdress,
+            msg.sender,
             TypeGeneration.Child,
             _name,
             _lastName,
@@ -185,34 +192,47 @@ contract IdentityPerson is Verifier{
             false
         );
 
+        return idPerson;
+    }
+
+    /// @notice Update child informations 
+    /// @param identifiantUnique identifiant unique of a person to update
+    /// @param _name Name of the child
+    /// @param _lastName Last name of the child
+    /// @param _otherName other name of the child
+    /// @param _birthDate Birth date at the birth child
+    /// @param _birthGender Gender at birth of child
+    function updatePerson(
+        bytes20 identifiantUnique, string memory _name, string memory _lastName, string memory _otherName,
+        string memory _birthGender, uint256 _birthDate
+    ) public {
+        require(peopleByIdentifiant[identifiantUnique].parentWallet == msg.sender, "You can only update your child information.");
+        peopleByIdentifiant[identifiantUnique].name = _name;
+        peopleByIdentifiant[identifiantUnique].lastName = _lastName;
+        peopleByIdentifiant[identifiantUnique].otherName = _otherName;
+        peopleByIdentifiant[identifiantUnique].birthGender = _birthGender;
+        peopleByIdentifiant[identifiantUnique].birthDate = _birthDate;
+        peopleByIdentifiant[identifiantUnique].validate = false;
     }
 
     /// @notice Validate child by the validator (State, hospital, town hall)
-    /// @param peopleWallet address wallet of the person to validate
-    function validatePerson(address peopleWallet) onlyVerifier public {
-        peopleWithWallet[peopleWallet].validate = true;
-        peopleWithWallet[peopleWallet].validateBy = msg.sender;
+    /// @param identifiantUnique identifiant unique of a person to validate
+    function validatePerson(bytes20 identifiantUnique) public onlyVerifier {
+        require( peopleByIdentifiant[identifiantUnique].birthDate != 0, "This person doesn't exist");
+        peopleByIdentifiant[identifiantUnique].validate = true;
+        peopleByIdentifiant[identifiantUnique].validateBy = msg.sender;
     }
 
     /// @notice Get a person data by his wallet
-    /// @param peopleWallet address wallet of the person to get the data
-    function getPersonbyWallet(address peopleWallet)
-        private
-        view
-        returns (Person memory)
-    {
-        require(msg.sender == peopleWallet, "Le wallet n'est pas le bon");
-        return peopleWithWallet[msg.sender];
+    /// @param identifiantUnique identifiant unique
+    function getPersonByID(bytes20 identifiantUnique) public view returns (Person memory){
+        require( peopleByIdentifiant[identifiantUnique].birthDate != 0, "This person doesn't exist");
+        return peopleByIdentifiant[identifiantUnique];
     }
 
     /// @notice Get a parent data by his wallet
-    /// @param parentWallet address wallet of the parent to get the data
-    function getParentbyWallet(address parentWallet)
-        private
-        view
-        returns (Parent memory)
-    {
-        require(msg.sender == parentWallet, "Le wallet n'est pas le bon");
+    function getParentbyWallet() public view returns (Parent memory){
+        require(parentWithWallet[msg.sender].ownerAddress == msg.sender, "The parent doesn't have a account");
         return parentWithWallet[msg.sender];
     }
 }

@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Row, Form, Button } from "react-bootstrap";
-import useForm from "../hooks/useForm";
 import getWeb3 from "../getWeb3";
 import identityContract from "../contracts/IdentityPerson.json";
 import AddParentForm from "./Form/AddParentForm";
@@ -21,7 +19,7 @@ const Profil = ({ account }) => {
       );
       console.log(instanceIdentity);
       let dataIdentty = await instanceIdentity.methods
-        .getPersonbyWallet(account)
+        .getParentbyWallet()
         .call({from: account})
         .then((res) => {
           console.log(res);
@@ -100,8 +98,8 @@ const Profil = ({ account }) => {
         <section className="actions">
           <h2>Action</h2>
           <ul>
-            <li><button className="profil"><i class="fa-solid fa-user-plus"></i>Ajouter un enfant</button> </li>
-            <li><button className="profil"><i class="fa-solid fa-user-pen"></i>Modifier un enfant</button> </li>
+            <li><button className="profil"><i className="fa-solid fa-user-plus"></i>Ajouter un enfant</button> </li>
+            <li><button className="profil"><i className="fa-solid fa-user-pen"></i>Modifier un enfant</button> </li>
           </ul>
         </section>
         <section className="family">
@@ -116,8 +114,8 @@ const Profil = ({ account }) => {
                     <p>Masculin</p>
                   </div>
                   <div>
-                    <button className="only-icon"><i class="fa-solid fa-pencil"></i></button>
-                    <button className="only-icon"><i class="fa-solid fa-xmark"></i></button>
+                    <button className="only-icon"><i className="fa-solid fa-pencil"></i></button>
+                    <button className="only-icon"><i className="fa-solid fa-xmark"></i></button>
                   </div>
                 </div>
                 <div className="bottom">
@@ -125,7 +123,7 @@ const Profil = ({ account }) => {
                   <p>Country</p>
                   <p>City</p>
                 </div>
-                <button className="only-icon pt-4"><i class="fa-solid fa-download"></i><span>Télécharger acte de naissance</span></button>
+                <button className="only-icon pt-4"><i className="fa-solid fa-download"></i><span>Télécharger acte de naissance</span></button>
               </div>
             </li>
             <li>
@@ -137,8 +135,8 @@ const Profil = ({ account }) => {
                     <p>Masculin</p>
                   </div>
                   <div>
-                    <button className="only-icon"><i class="fa-solid fa-pencil"></i></button>
-                    <button className="only-icon"><i class="fa-solid fa-xmark"></i></button>
+                    <button className="only-icon"><i className="fa-solid fa-pencil"></i></button>
+                    <button className="only-icon"><i className="fa-solid fa-xmark"></i></button>
                   </div>
                 </div>
                 <div className="bottom">
@@ -146,7 +144,7 @@ const Profil = ({ account }) => {
                   <p>Country</p>
                   <p>City</p>
                 </div>
-                <button className="only-icon pt-4"><i class="fa-solid fa-download"></i><span>Télécharger acte de naissance</span></button>
+                <button className="only-icon pt-4"><i className="fa-solid fa-download"></i><span>Télécharger acte de naissance</span></button>
               </div>
             </li>
             <li>
@@ -158,8 +156,8 @@ const Profil = ({ account }) => {
                     <p>Masculin</p>
                   </div>
                   <div>
-                    <button className="only-icon"><i class="fa-solid fa-pencil"></i></button>
-                    <button className="only-icon"><i class="fa-solid fa-xmark"></i></button>
+                    <button className="only-icon"><i className="fa-solid fa-pencil"></i></button>
+                    <button className="only-icon"><i className="fa-solid fa-xmark"></i></button>
                   </div>
                 </div>
                 <div className="bottom">
@@ -167,7 +165,7 @@ const Profil = ({ account }) => {
                   <p>Country</p>
                   <p>City</p>
                 </div>
-                <button className="only-icon pt-4"><i class="fa-solid fa-download"></i><span>Télécharger acte de naissance</span></button>
+                <button className="only-icon pt-4"><i className="fa-solid fa-download"></i><span>Télécharger acte de naissance</span></button>
               </div>
             </li>
           </ul>
