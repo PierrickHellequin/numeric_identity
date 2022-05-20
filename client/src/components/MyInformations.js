@@ -100,6 +100,7 @@ const MyInformations = ({ data, type  }) => {
           </div>
         </li> </>
         )})) :""}
+
       </ul>
     </section>
   );

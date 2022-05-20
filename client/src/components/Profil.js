@@ -11,6 +11,8 @@ const Profil = ({ account }) => {
   const [parentInformation, setParentInformation] = useState(0);
   const [showForm, setShowForm] = useState(false);
   const [childrenInformations, setChildrenInformations] = useState([]);
+  const cleanTab = [];
+  const informationsChildrens = [];
 
   const loadContract = async () => {
     try {
@@ -33,7 +35,26 @@ const Profil = ({ account }) => {
           console.log(err);
         });
 
-      loadChildren(instanceIdentity);
+
+      let i = 0;
+      await instanceIdentity.events
+        .registerPeople({
+          filter: {
+            parentWallet: account,
+          }, // Using an array means OR: e.g. 20 or 23
+          fromBlock: 0,
+        })
+        .on("data", function (event) {
+          informationsChildrens[i] = event.returnValues;
+          i++;
+          setChildrenInformations(informationsChildrens);
+        })
+        .on("changed", function (event) {
+          console.log("Mise à jour");
+          // remove event from local database
+        })
+        .on("error", console.error);
+
       setInstanceIdentity(instanceIdentity);
     } catch (error) {
       console.error(error);
@@ -81,29 +102,35 @@ const Profil = ({ account }) => {
       });
   };
 
-  const loadChildren = async (instance) => {
-    const loadInstance = Object.keys(instanceIdentity).length == 0 ? instance : instanceIdentity;
-    const informationsChildrens = []; 
+  const loadChildren = (instance) => {
+    const loadInstance =
+      Object.keys(instanceIdentity).length == 0 ? instance : instanceIdentity;
+    const informationsChildrens = [];
     loadInstance.events
-      .registerPeople(
-        {
-          filter: {
-            parentWallet: account,
-          }, // Using an array means OR: e.g. 20 or 23
-          fromBlock: 0,
-        },
-        function (error, event) {
-          console.log('je passe ici');
-          informationsChildrens.push(event.returnValues);
-          
-        }
-      )
+      .registerPeople({
+        filter: {
+          parentWallet: account,
+        }, // Using an array means OR: e.g. 20 or 23
+        fromBlock: 0,
+      })
+      .on("data", function (event) {
+        Object.keys(event.returnValues).map((key) => {
+          if (Number.isInteger(parseInt(key))) {
+            return;
+          }
+          cleanTab[key] = event.returnValues[key];
+        });
+
+        informationsChildrens.push(cleanTab);
+        setChildrenInformations(event.returnValues);
+      })
       .on("changed", function (event) {
-        console.log('Mise à jour');
+        console.log("Mise à jour");
         // remove event from local database
       })
       .on("error", console.error);
-      setChildrenInformations(informationsChildrens);
+
+    //setChildrenInformations(informationsChildrens);
   };
 
   const showFormChild = () => {
@@ -129,8 +156,8 @@ const Profil = ({ account }) => {
             <AddParentForm account={account} saveParent={saveParent} />
           ) : (
             <>
-            
               <MyInformations data={parentInformation} type="parent" />
+
               <MyInformations data={childrenInformations} type="children" />
               <section className="actions">
                 <h2>Action</h2>
