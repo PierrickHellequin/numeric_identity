@@ -226,13 +226,11 @@ contract IdentityPerson is Verifier {
     /// @notice Get a person data by his wallet
     /// @param identifiantUnique identifiant unique
     function getPersonByID(bytes20 identifiantUnique) public view returns (Person memory){
-        require( peopleByIdentifiant[identifiantUnique].birthDate != 0, "This person doesn't exist");
         return peopleByIdentifiant[identifiantUnique];
     }
 
     /// @notice Get a parent data by his wallet
     function getParentbyWallet() public view returns (Parent memory){
-        require(parentWithWallet[msg.sender].ownerAddress == msg.sender, "The parent doesn't have a account");
         return parentWithWallet[msg.sender];
     }
 }

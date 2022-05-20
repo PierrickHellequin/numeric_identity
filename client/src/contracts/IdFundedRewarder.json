@@ -21920,6 +21920,122 @@
     "version": "0.8.14+commit.80d49f37.Emscripten.clang"
   },
   "networks": {
+    "4": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0x772dc32fd4634e04156fbc2ca2a50501b296e61485b59f63e473b52cbae86b5d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "ethereumAddress",
+              "type": "address"
+            }
+          ],
+          "name": "addressClaimed",
+          "type": "event"
+        },
+        "0x71d16f7ba31ce6cfa8c222e2866481dc2febef566b0f57f48e2b8682066b3272": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "bytes20",
+              "name": "ID",
+              "type": "bytes20"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "ethereumAddress",
+              "type": "address"
+            }
+          ],
+          "name": "addressUpdated",
+          "type": "event"
+        },
+        "0x71069449479f1404d8f741920102be94e753b09e8c6b5fd2d2412c66ea0fa15c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "bytes20",
+              "name": "ID",
+              "type": "bytes20"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "ethereumAddress",
+              "type": "address"
+            }
+          ],
+          "name": "idRegistered",
+          "type": "event"
+        },
+        "0x95bebc47f6b4a2ddd1a0731a6e2f8fa1165f1d4906892bc4b4f6833e1996c5e6": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "bytes20",
+              "name": "ID",
+              "type": "bytes20"
+            }
+          ],
+          "name": "idRemoved",
+          "type": "event"
+        },
+        "0xff5fcdf4478baae05e1d5657353963f8ff1507d9c63f91488e9b8532d02ab186": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "NewRate",
+              "type": "uint256"
+            }
+          ],
+          "name": "rewardRateChanged",
+          "type": "event"
+        },
+        "0xe8e4ad0e9f08f579138b79a3fb5610b7692b583670bd2f6a4c9e0850ea363eff": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "RewTokenAddress",
+              "type": "address"
+            }
+          ],
+          "name": "rewardTokenChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x2192163317Cef54C80BD10727C2df0A211409030",
+      "transactionHash": "0xac5daa085fe7d85f4eb2cb09c59b06fccb51a46eb98d18d7bcdede05685cdfe1"
+    },
     "8545": {
       "events": {
         "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
@@ -22033,12 +22149,12 @@
         }
       },
       "links": {},
-      "address": "0x0a497Bd4e1dA044aE5cb297d6E12b6F9994626ec",
-      "transactionHash": "0x2b2ad8df4e6d7985c4e40d77d16414e1066dd841343659bb18e34e1f7282ca3e"
+      "address": "0x92cFF5927391B8F37549b97BefAC6c88E01815aE",
+      "transactionHash": "0xa0f8ca6d22b3fc36d64f298fd381b319c2592db985ff228a2ed4e5053ad4b1ae"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2022-05-20T14:23:47.737Z",
+  "updatedAt": "2022-05-20T19:48:21.042Z",
   "networkType": "ethereum",
   "devdoc": {
     "author": "Tibo",

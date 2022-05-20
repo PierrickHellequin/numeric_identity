@@ -1,32 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@PierrickHellequin 
-PierrickHellequin
-/
-numeric_identity
-Public
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-numeric_identity/client/src/App.css
-
-Laetitia Update design profil
-Latest commit acc79c4 2 hours ago
- History
- 1 contributor
-376 lines (336 sloc)  6.09 KB
-   
 ::selection {
   background-color: #272a33;
   color: #ffffff;
@@ -63,16 +34,16 @@ h2{
 h2:after{
   content:"";
   display: block;
-  width: 100%;
+  width: 50px;
   height: 2px;
-  margin-right: auto;
-  margin-left: auto;
+  margin-left: 0;
   margin-top: 1rem;
 
   background-color: #fb3e3e;
 }
 h2.home:after{
-  width: 50px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 h3{
@@ -178,10 +149,15 @@ footer .copyright{
 }
 
 /* BUTTONS */ 
-button{
+.btn{
   border: none;
   background-color: transparent;
   transition: all 0.4s;
+}
+.btn:hover{
+  transform: translateY(-5px);
+  background-color: #b90334;
+  border-color: #b90334;
 }
 
 button.btn-primary{
@@ -202,18 +178,20 @@ button.profil{
   color:#272a33;
   border-radius: 0.25rem;
   font-size: 1rem;
+  border: 1px solid #ecf0f5;
   box-shadow: 0 2px 6px 0 rgb(0 0 0 / 20%);
 }
 button.profil i{
   font-size:3rem;
   color: #fb3e3e;
+  transition: all .4s linear;
 }
 button.profil:hover{
-  background-color: #fb3e3e;
-  color:#ffffff;
+  border-color: #b90334;
+  color:#b90334;
 }
 button.profil:hover i{
-  color:#ffffff;
+  color:#b90334;
 }
 
 button.only-icon{
@@ -224,7 +202,26 @@ button.only-icon span{
   margin-left:.5rem;
 }
 button.only-icon:hover{
-  color:#212529;
+  color:#b90334;
+  background-color: transparent;
+  transform: none;
+}
+
+/* FORMS */
+form{
+  display: flex;
+}
+
+form .formGroup{
+  display: flex;
+  flex-direction: column;
+  width:100%;
+  padding:.5rem;
+  justify-content: flex-start;
+}
+form .formGroup.last{
+  width:50%;
+  justify-content: flex-end;
 }
 
 /* HOME PAGE */
@@ -367,6 +364,9 @@ section.people ul li p{
 /* PROFIL */
 section.actions ul{
  display: flex;
+ margin-left: auto;
+ margin-right: auto;
+ width:25%;
 }
 section.actions ul li{
   width: 100%;
@@ -382,9 +382,11 @@ section.family ul li{
   padding: 1rem;
 }
 section.family ul li .people{
+  position: relative;
   padding:1rem;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   border-radius:.25rem;
   border: 1px solid #ecf0f5;
@@ -402,4 +404,45 @@ section.family ul li .bottom{
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #ecf0f5;
+}
+section.family ul li .groupButton{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+section.family ul li .groupButton div{
+  display: flex;
+}
+section.family ul li .flap{
+  position: absolute;
+  right: -54px;
+  top: -28px;
+  padding:1rem;
+  transform: rotate(45deg);
+  
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: .8rem;
+}
+section.family ul li .flap span{
+  position: absolute;
+  top: 56px;
+  right: 45px;
+}
+section.family ul li .flap:before{
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 60px solid transparent;
+  border-right: 60px solid transparent;
+  border-bottom: 60px solid #1BBC9D;
+  display: block;
+}
+section.family ul li .flap.inProgress:before{
+  content: "";  
+  border-bottom: 60px solid #D0E1DE;
+}
+section.family ul li .flap.inProgress span{
+  right: 32px;
 }

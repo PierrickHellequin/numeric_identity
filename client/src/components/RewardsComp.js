@@ -376,30 +376,30 @@ class RewardsComp extends Component {
       <div className="Claim">
 
 
-        <div class="card" style={{ width: '128rem' }}>
-          <div class="card-body">
-            <div class="row">
+        <div className="card" style={{ width: '128rem' }}>
+          <div className="card-body">
+            <div className="row">
 
-              <div class="col-md-1">Dai balance</div>
-              <div class="col-md-2">{balDaiTxt}</div>
+              <div className="col-md-1">Dai balance</div>
+              <div className="col-md-2">{balDaiTxt}</div>
             </div>
 
-            <div class="row">
-              <div class="col-md-1">Ubi balance</div>
-              <div class="col-md-2">{balUbiTxt}</div>
+            <div className="row">
+              <div className="col-md-1">Ubi balance</div>
+              <div className="col-md-2">{balUbiTxt}</div>
             </div>
 
           </div>
         </div>
 
-        <div class="card" style={{ width: '128rem' }}>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-1">Your rewards</div>
-              <div class="col-md-2">{rewardsText}</div>
+        <div className="card" style={{ width: '128rem' }}>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-1">Your rewards</div>
+              <div className="col-md-2">{rewardsText}</div>
             </div>
-            <div class="row">
-              <div class="col-md-1"> <button type="button" onClick={() => this.handleClick()}>
+            <div className="row">
+              <div className="col-md-1"> <button type="button" onClick={() => this.handleClick()}>
                 Claim
           </button></div>
             </div>

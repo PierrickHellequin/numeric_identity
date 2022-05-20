@@ -3,9 +3,14 @@ import getWeb3 from "../getWeb3";
 import identityContract from "../contracts/IdentityPerson.json";
 import AddParentForm from "./Form/AddParentForm";
 import AddChildForm from "./Form/AddChildForm";
+import MyInformations from "./MyInformations";
+import { ethers } from "ethers";
 
 const Profil = ({ account }) => {
   const [instanceIdentity, setInstanceIdentity] = useState({});
+  const [parentInformation, setParentInformation] = useState(0);
+  const [showForm, setShowForm] = useState(false);
+  const [childrenInformations, setChildrenInformations] = useState([]);
 
   const loadContract = async () => {
     try {
@@ -13,21 +18,22 @@ const Profil = ({ account }) => {
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = await identityContract.networks[networkId];
-      const instanceIdentity = new web3.eth.Contract(
+      const instanceIdentity = await new web3.eth.Contract(
         identityContract.abi,
         deployedNetwork && deployedNetwork.address
       );
-      console.log(instanceIdentity);
-      let dataIdentty = await instanceIdentity.methods
+
+      await instanceIdentity.methods
         .getParentbyWallet()
-        .call({from: account})
+        .call({ from: account })
         .then((res) => {
-          console.log(res);
+          setParentInformation(res);
         })
         .catch(function (err) {
           console.log(err);
         });
 
+      loadChildren(instanceIdentity);
       setInstanceIdentity(instanceIdentity);
     } catch (error) {
       console.error(error);
@@ -48,6 +54,7 @@ const Profil = ({ account }) => {
       )
       .send({ from: account })
       .then((res) => {
+        setShowForm(false);
         console.log(res);
       })
       .catch(function (err) {
@@ -56,7 +63,6 @@ const Profil = ({ account }) => {
   };
 
   const saveParent = async (data) => {
-    console.log(data);
     await instanceIdentity.methods
       .registerParent(
         account,
@@ -68,11 +74,40 @@ const Profil = ({ account }) => {
       )
       .send({ from: account })
       .then((res) => {
-        console.log(res);
+        setParentInformation(data);
       })
       .catch(function (err) {
         console.log(err);
       });
+  };
+
+  const loadChildren = async (instance) => {
+    const loadInstance = Object.keys(instanceIdentity).length == 0 ? instance : instanceIdentity;
+    const informationsChildrens = []; 
+    loadInstance.events
+      .registerPeople(
+        {
+          filter: {
+            parentWallet: account,
+          }, // Using an array means OR: e.g. 20 or 23
+          fromBlock: 0,
+        },
+        function (error, event) {
+          console.log('je passe ici');
+          informationsChildrens.push(event.returnValues);
+          
+        }
+      )
+      .on("changed", function (event) {
+        console.log('Mise à jour');
+        // remove event from local database
+      })
+      .on("error", console.error);
+      setChildrenInformations(informationsChildrens);
+  };
+
+  const showFormChild = () => {
+    setShowForm(!showForm);
   };
 
   useEffect(() => {
@@ -83,94 +118,35 @@ const Profil = ({ account }) => {
   }, [account]);
 
   return (
-    
     <div className="container pt-5">
       {account.length === 0 ? (
         <p style={{ paddingTop: "104px" }}>
           Pour s enregistrer il faut etre connecté à son compte Metamask
         </p>
       ) : (
-
-       <div style={{ paddingTop: "104px" }}>
-
-       <AddParentForm account={account} saveParent={saveParent} />
-       
-        <section className="actions">
-          <h2>Action</h2>
-          <ul>
-            <li><button className="profil"><i className="fa-solid fa-user-plus"></i>Ajouter un enfant</button> </li>
-            <li><button className="profil"><i className="fa-solid fa-user-pen"></i>Modifier un enfant</button> </li>
-          </ul>
-        </section>
-        <section className="family">
-          <h2>Mes informations</h2>
-          <ul>
-            <li>
-              <div className="people">
-                <div className="top">
-                  <div>
-                    <p><span>Nom Prénom</span></p>
-                    <p>Autre prénom / Autre prénom</p>
-                    <p>Masculin</p>
-                  </div>
-                  <div>
-                    <button className="only-icon"><i className="fa-solid fa-pencil"></i></button>
-                    <button className="only-icon"><i className="fa-solid fa-xmark"></i></button>
-                  </div>
-                </div>
-                <div className="bottom">
-                  <p>00/00/0000</p>
-                  <p>Country</p>
-                  <p>City</p>
-                </div>
-                <button className="only-icon pt-4"><i className="fa-solid fa-download"></i><span>Télécharger acte de naissance</span></button>
-              </div>
-            </li>
-            <li>
-              <div className="people">
-                <div className="top">
-                  <div>
-                    <p><span>Nom Prénom</span></p>
-                    <p>Autre prénom / Autre prénom</p>
-                    <p>Masculin</p>
-                  </div>
-                  <div>
-                    <button className="only-icon"><i className="fa-solid fa-pencil"></i></button>
-                    <button className="only-icon"><i className="fa-solid fa-xmark"></i></button>
-                  </div>
-                </div>
-                <div className="bottom">
-                  <p>00/00/0000</p>
-                  <p>Country</p>
-                  <p>City</p>
-                </div>
-                <button className="only-icon pt-4"><i className="fa-solid fa-download"></i><span>Télécharger acte de naissance</span></button>
-              </div>
-            </li>
-            <li>
-              <div className="people">
-                <div className="top">
-                  <div>
-                    <p><span>Nom Prénom</span></p>
-                    <p>Autre prénom / Autre prénom</p>
-                    <p>Masculin</p>
-                  </div>
-                  <div>
-                    <button className="only-icon"><i className="fa-solid fa-pencil"></i></button>
-                    <button className="only-icon"><i className="fa-solid fa-xmark"></i></button>
-                  </div>
-                </div>
-                <div className="bottom">
-                  <p>00/00/0000</p>
-                  <p>Country</p>
-                  <p>City</p>
-                </div>
-                <button className="only-icon pt-4"><i className="fa-solid fa-download"></i><span>Télécharger acte de naissance</span></button>
-              </div>
-            </li>
-          </ul>
-        </section>
-        <AddChildForm account={account} saveChild={saveIdentity}/>
+        <div>
+          {parentInformation == undefined ? (
+            <AddParentForm account={account} saveParent={saveParent} />
+          ) : (
+            <>
+            
+              <MyInformations data={parentInformation} type="parent" />
+              <MyInformations data={childrenInformations} type="children" />
+              <section className="actions">
+                <h2>Action</h2>
+                <ul>
+                  <li>
+                    <button className="profil" onClick={showFormChild}>
+                      <i className="fa-solid fa-user-plus"></i>Ajouter un enfant
+                    </button>{" "}
+                  </li>
+                </ul>
+              </section>
+              {showForm && (
+                <AddChildForm account={account} saveChild={saveIdentity} />
+              )}
+            </>
+          )}
         </div>
       )}
     </div>

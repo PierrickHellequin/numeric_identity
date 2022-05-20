@@ -2,18 +2,7 @@ import React, { Component } from "react";
 import NavbarSimple from "./NavbarSimple";
 import MainpageSelector from "./MainpageSelector";
 import getWeb3Click from "../getWeb3";
-
-//Load components
-// import Navigation from "./components/Navbar";
-// import Admin from "./components/admin";
-// import Defi from "./components/protocole";
-// import LoadUser from "./components/usersData";
-
-// contracts
-// Rewarder
 import IdRewarder from "../contracts/IdFundedRewarder.json";
-
-
 
 // css
 import "../assets/css/appstyle.css";
@@ -60,9 +49,9 @@ class Main extends Component {
     //  this.loadWeb3();
 
     
-    this.state.intervalId = setInterval(() => {
+    
         this.runInit();
-      }, 1000);
+     
 
   };
 

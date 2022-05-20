@@ -6,6 +6,6 @@ module.exports = async function (deployer) {
   await deployer.deploy(Verifier);
   const instanceVerifier = await Verifier.deployed();
   //deploy contract identity
-  // await deployer.deploy(IdentityPerson);
-  // const instanceIdentity = await IdentityPerson.deployed();
+  await deployer.deploy(IdentityPerson);
+  const instanceIdentity = await IdentityPerson.deployed();
 };
