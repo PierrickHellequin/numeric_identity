@@ -88,8 +88,8 @@ const Mainpage = ({ account }) => {
             <h2 className="text-center home">Behind the people</h2>
             <ul>
               <li>
-                <img src={people} alt="Pierrick Hellequin Developpeur"></img>
-                <h4>Pierrick Hellequin</h4>
+                <img src={people} alt="Thibaud C. Developpeur"></img>
+                <h4>Thibaud C.</h4>
                 <p className="text-uppercase text-center">Développeur</p>
               </li>
               <li>
@@ -98,14 +98,14 @@ const Mainpage = ({ account }) => {
                 <p className="text-uppercase text-center">Développeur</p>
               </li>
               <li>
-                <img src={people} alt="Pierrick Hellequin Developpeur"></img>
-                <h4>Pierrick Hellequin</h4>
-                <p className="text-uppercase text-center">Développeur</p>
+                <img src={people} alt="François Dias"></img>
+                <h4>François Dias</h4>
+                <p className="text-uppercase text-center">Chef de projet</p>
               </li>
               <li>
-                <img src={people} alt="Pierrick Hellequin Developpeur"></img>
-                <h4>Pierrick Hellequin</h4>
-                <p className="text-uppercase text-center">Développeur</p>
+                <img src={people} alt="Ad"></img>
+                <h4>Abdoulaye TOURÉ</h4>
+                <p className="text-uppercase text-center">Chef de projet</p>
               </li>
             </ul>
           </div>
