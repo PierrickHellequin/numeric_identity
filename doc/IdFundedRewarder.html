@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)https://ipfs.io/ipfs/QmU61FDoFAPPAjdrZ9UE9jsTqqvyofbE5qpAQ5TBWAtxQt -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="description" content="Web site created with EthDoc">
+  <link rel="stylesheet" href="./IdFundedRewarder_files/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  </head>
+  <body>
+      
+    <style>
+        #ethdoc-viewer{
+            font-size: 0.8em;
+            padding: 1em;
+        }
+        #ethdoc-viewer .lead{
+            font-size: 1em;
+        }
+        #ethdoc-viewer table {
+            width: 50%;
+        }
+        #ethdoc-viewer hr {
+            margin: 0;
+            margin-bottom: 0.5rem;
+        }
+        #ethdoc-viewer p{
+            margin-bottom: 0.5rem;
+        }
+    </style>
+
+    <div id="ethdoc-viewer">
+    
+        
+    <h3>IdFundedRewarder <small>: IdFundedRewarder Contract</small></h3>
+
+    <p class="lead">This rewards registered couples (id,EthereumAddress) regularly</p>
+
+    <p>Author: Tibo</p>
+
+    <br>
+    <p><strong>Functions</strong></p>
+
+
+        
+          <hr>
+            <h6>Claim</h6>
+
+            <p><strong>**Add Documentation for the method here**</strong></p>
+
+            <p>No parameters</p>
+                  
+            <p>Returns:</p>
+           
+            <p>No parameters</p>
+            
+
+          <hr>
+            <h6>EstimateRewardForAddress</h6>
+
+            
+
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td>ethAddress</td>
+        <td>address</td>
+        <td>Ethereum address</td>
+        </tr>
+              </tbody>
+      </table>
+                  
+            <p>Returns:</p>
+           
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td></td>
+        <td>uint256</td>
+        <td></td>
+        </tr>
+              </tbody>
+      </table>
+            
+
+          <hr>
+            <h6>GetAddressFromKey</h6>
+
+            
+
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td>key</td>
+        <td>bytes20</td>
+        <td></td>
+        </tr>
+              </tbody>
+      </table>
+                  
+            <p>Returns:</p>
+           
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td></td>
+        <td>address</td>
+        <td></td>
+        </tr>
+              </tbody>
+      </table>
+            
+
+          <hr>
+            <h6>GetNbRegisteredAdresses</h6>
+
+            
+
+            <p>No parameters</p>
+                  
+            <p>Returns:</p>
+           
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td></td>
+        <td>uint256</td>
+        <td></td>
+        </tr>
+              </tbody>
+      </table>
+            
+
+          <hr>
+            <h6>RegisterAddress</h6>
+
+            
+
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td>key</td>
+        <td>bytes20</td>
+        <td>Unique Id </td>
+        </tr><tr>
+        <td>newAddress</td>
+        <td>address</td>
+        <td>Ethereum address that will be allowed to claim rewards</td>
+        </tr>
+              </tbody>
+      </table>
+                  
+            <p>Returns:</p>
+           
+            <p>No parameters</p>
+            
+
+          <hr>
+            <h6>RemoveAddress</h6>
+
+            
+
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td>key</td>
+        <td>bytes20</td>
+        <td>Unique Id </td>
+        </tr>
+              </tbody>
+      </table>
+                  
+            <p>Returns:</p>
+           
+            <p>No parameters</p>
+            
+
+          <hr>
+            <h6>UpdateAddress</h6>
+
+            
+
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td>key</td>
+        <td>bytes20</td>
+        <td>Unique Id </td>
+        </tr><tr>
+        <td>newAddress</td>
+        <td>address</td>
+        <td>Ethereum address that will be allowed to claim rewards</td>
+        </tr>
+              </tbody>
+      </table>
+                  
+            <p>Returns:</p>
+           
+            <p>No parameters</p>
+            
+
+          <hr>
+            <h6>owner</h6>
+
+            <p>Returns the address of the current owner.</p>
+
+            <p>No parameters</p>
+                  
+            <p>Returns:</p>
+           
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td></td>
+        <td>address</td>
+        <td></td>
+        </tr>
+              </tbody>
+      </table>
+            
+
+          <hr>
+            <h6>renounceOwnership</h6>
+
+            <p>Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.</p>
+
+            <p>No parameters</p>
+                  
+            <p>Returns:</p>
+           
+            <p>No parameters</p>
+            
+
+          <hr>
+            <h6>setRewardRate</h6>
+
+            
+
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td>TokensPerSec</td>
+        <td>uint256</td>
+        <td>Nb of wei per second</td>
+        </tr>
+              </tbody>
+      </table>
+                  
+            <p>Returns:</p>
+           
+            <p>No parameters</p>
+            
+
+          <hr>
+            <h6>setRewardToken</h6>
+
+            
+
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td>RewTokenAddress</td>
+        <td>address</td>
+        <td>Address of the reward ERC20</td>
+        </tr>
+              </tbody>
+      </table>
+                  
+            <p>Returns:</p>
+           
+            <p>No parameters</p>
+            
+
+          <hr>
+            <h6>transferOwnership</h6>
+
+            <p>Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.</p>
+
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td>newOwner</td>
+        <td>address</td>
+        <td></td>
+        </tr>
+              </tbody>
+      </table>
+                  
+            <p>Returns:</p>
+           
+            <p>No parameters</p>
+            
+    
+    </div>
+
+  
+  
+<div></div></body></html>

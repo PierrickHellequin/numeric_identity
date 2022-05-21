@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)https://ipfs.io/ipfs/QmTVoGMbBGoL11c8dDi8Yaov4R9hchfEgGbSHANJZNSrns -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="description" content="Web site created with EthDoc">
+  <link rel="stylesheet" href="./IdentityPerson_files/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  </head>
+  <body>
+      
+    <style>
+        #ethdoc-viewer{
+            font-size: 0.8em;
+            padding: 1em;
+        }
+        #ethdoc-viewer .lead{
+            font-size: 1em;
+        }
+        #ethdoc-viewer table {
+            width: 50%;
+        }
+        #ethdoc-viewer hr {
+            margin: 0;
+            margin-bottom: 0.5rem;
+        }
+        #ethdoc-viewer p{
+            margin-bottom: 0.5rem;
+        }
+    </style>
+
+    <div id="ethdoc-viewer">
+    
+        
+    <h3>IdentityPerson </h3>
+
+    
+
+    
+
+    <br>
+    <p><strong>Functions</strong></p>
+
+
+        
+          <hr>
+            <h6>addVerifier</h6>
+
+            
+
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td>_veriferAddress</td>
+        <td>address</td>
+        <td>: The address of the owner of this identity</td>
+        </tr><tr>
+        <td>_country</td>
+        <td>string</td>
+        <td>: country of this identity</td>
+        </tr><tr>
+        <td>_city</td>
+        <td>string</td>
+        <td>: city of this identity</td>
+        </tr><tr>
+        <td>_streetAddress</td>
+        <td>string</td>
+        <td>: country of this identity</td>
+        </tr><tr>
+        <td>_typeValidateur</td>
+        <td>uint8</td>
+        <td>type of validateur</td>
+        </tr>
+              </tbody>
+      </table>
+                  
+            <p>Returns:</p>
+           
+            <p>No parameters</p>
+            
+
+          <hr>
+            <h6>getMapVerifier</h6>
+
+            <p><strong>**Add Documentation for the method here**</strong></p>
+
+            <p>No parameters</p>
+                  
+            <p>Returns:</p>
+           
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td></td>
+        <td>tuple</td>
+        <td></td>
+        </tr>
+              </tbody>
+      </table>
+            
+
+          <hr>
+            <h6>getParentbyWallet</h6>
+
+            <p><strong>**Add Documentation for the method here**</strong></p>
+
+            <p>No parameters</p>
+                  
+            <p>Returns:</p>
+           
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td></td>
+        <td>tuple</td>
+        <td></td>
+        </tr>
+              </tbody>
+      </table>
+            
+
+          <hr>
+            <h6>getPersonByID</h6>
+
+            
+
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td>identifiantUnique</td>
+        <td>bytes20</td>
+        <td>identifiant unique</td>
+        </tr>
+              </tbody>
+      </table>
+                  
+            <p>Returns:</p>
+           
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td></td>
+        <td>tuple</td>
+        <td></td>
+        </tr>
+              </tbody>
+      </table>
+            
+
+          <hr>
+            <h6>registerParent</h6>
+
+            
+
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td>_ownerAddress</td>
+        <td>address</td>
+        <td>: The address of the owner of this identity</td>
+        </tr><tr>
+        <td>_name</td>
+        <td>string</td>
+        <td>: Name of this identity</td>
+        </tr><tr>
+        <td>_lastName</td>
+        <td>string</td>
+        <td>: lastname of this identity</td>
+        </tr><tr>
+        <td>_country</td>
+        <td>string</td>
+        <td>: country of this identity</td>
+        </tr><tr>
+        <td>_document</td>
+        <td>string</td>
+        <td>: type of document (Passport, Secrurity social, drive license)</td>
+        </tr><tr>
+        <td>_numberDocument</td>
+        <td>uint256</td>
+        <td>: number associated with the type of document</td>
+        </tr>
+              </tbody>
+      </table>
+                  
+            <p>Returns:</p>
+           
+            <p>No parameters</p>
+            
+
+          <hr>
+            <h6>registerPerson</h6>
+
+            
+
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td>_ownerAddress</td>
+        <td>address</td>
+        <td>Address of the parent of the child</td>
+        </tr><tr>
+        <td>_name</td>
+        <td>string</td>
+        <td>Name of the child</td>
+        </tr><tr>
+        <td>_lastName</td>
+        <td>string</td>
+        <td>Last name of the child</td>
+        </tr><tr>
+        <td>_otherName</td>
+        <td>string</td>
+        <td>other name of the child</td>
+        </tr><tr>
+        <td>_birthDate</td>
+        <td>uint256</td>
+        <td>Birth date at the birth child</td>
+        </tr><tr>
+        <td>_birthCountry</td>
+        <td>string</td>
+        <td>Country at the birth child</td>
+        </tr><tr>
+        <td>_birthCity</td>
+        <td>string</td>
+        <td>City at the birth child</td>
+        </tr><tr>
+        <td>_birthGender</td>
+        <td>string</td>
+        <td>Gender at birth of child</td>
+        </tr>
+              </tbody>
+      </table>
+                  
+            <p>Returns:</p>
+           
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td>ID</td>
+        <td>bytes20</td>
+        <td></td>
+        </tr>
+              </tbody>
+      </table>
+            
+
+          <hr>
+            <h6>updatePerson</h6>
+
+            
+
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td>identifiantUnique</td>
+        <td>bytes20</td>
+        <td>identifiant unique of a person to update</td>
+        </tr><tr>
+        <td>_name</td>
+        <td>string</td>
+        <td>Name of the child</td>
+        </tr><tr>
+        <td>_lastName</td>
+        <td>string</td>
+        <td>Last name of the child</td>
+        </tr><tr>
+        <td>_otherName</td>
+        <td>string</td>
+        <td>other name of the child</td>
+        </tr><tr>
+        <td>_birthGender</td>
+        <td>string</td>
+        <td>Gender at birth of child</td>
+        </tr><tr>
+        <td>_birthDate</td>
+        <td>uint256</td>
+        <td>Birth date at the birth child</td>
+        </tr>
+              </tbody>
+      </table>
+                  
+            <p>Returns:</p>
+           
+            <p>No parameters</p>
+            
+
+          <hr>
+            <h6>validatePerson</h6>
+
+            
+
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <tr>
+        <td>identifiantUnique</td>
+        <td>bytes20</td>
+        <td>identifiant unique of a person to validate</td>
+        </tr>
+              </tbody>
+      </table>
+                  
+            <p>Returns:</p>
+           
+            <p>No parameters</p>
+            
+    
+    </div>
+
+  
+  
+<div></div></body></html>
