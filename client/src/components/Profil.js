@@ -29,7 +29,9 @@ const Profil = ({ account }) => {
         .getParentbyWallet()
         .call({ from: account })
         .then((res) => {
-          setParentInformation(res);
+          if(res.alive == true){
+            setParentInformation(res);
+          }
         })
         .catch(function (err) {
           console.log(err);
@@ -101,37 +103,6 @@ const Profil = ({ account }) => {
       });
   };
 
-  const loadChildren = (instance) => {
-    const loadInstance =
-      Object.keys(instanceIdentity).length == 0 ? instance : instanceIdentity;
-    const informationsChildrens = [];
-    loadInstance.events
-      .registerPeople({
-        filter: {
-          parentWallet: account,
-        }, // Using an array means OR: e.g. 20 or 23
-        fromBlock: 0,
-      })
-      .on("data", function (event) {
-        Object.keys(event.returnValues).map((key) => {
-          if (Number.isInteger(parseInt(key))) {
-            return;
-          }
-          cleanTab[key] = event.returnValues[key];
-        });
-
-        informationsChildrens.push(cleanTab);
-        setChildrenInformations(event.returnValues);
-      })
-      .on("changed", function (event) {
-        console.log("Mise à jour");
-        // remove event from local database
-      })
-      .on("error", console.error);
-
-    //setChildrenInformations(informationsChildrens);
-  };
-
   const showFormChild = () => {
     setShowForm(!showForm);
   };
@@ -145,13 +116,14 @@ const Profil = ({ account }) => {
 
   return (
     <div className="container pt-5">
+      {console.log(parentInformation)}
       {account.length === 0 ? (
         <p style={{ paddingTop: "104px" }}>
           Pour s enregistrer il faut etre connecté à son compte Metamask
         </p>
       ) : (
         <div>
-          {parentInformation == undefined ? (
+          {parentInformation == 0 ? (
             <AddParentForm account={account} saveParent={saveParent} />
           ) : (
             <>
