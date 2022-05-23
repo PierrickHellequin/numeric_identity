@@ -226,103 +226,112 @@ const abiDai = [
   }
 ];
 
-// // GANACHE DEPLOY
-module.exports = async function(deployer) {
-
-  var daiAdress = "0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa";
-  let accounts = await web3.eth.getAccounts();
-
-  //var theaccount = accounts[0];
-  var theaccount = "0x1AEA6e9F801E65c9967D061d8202C3dFc3447220";
-
-
-  console.log("****** DEPLOY REWARDER CONTRACT **************************");
-  await deployer.deploy(Rewarder);
-  const instanceRewarder = await Rewarder.deployed();
-  //console.log("adress rewarder "+instanceRewarder);
-  
-  // console.log("****** DEPLOY FAKE DAI TOKEN **************************");
-  await deployer.deploy(FakeDai,"REWARD","REW");
-  const FakeDaiInstance = await FakeDai.deployed();
-  console.log("adress Dai token "+FakeDaiInstance.address);
-
-
-  console.log("****** FUND REWARDER CONTRACT **************************");
-
-
-
-  // 1000 dai for test
-  const weiValue = web3.utils.toWei('1000', 'ether');
-  //await FakeDaiInstance.methods.transfer(instanceRewarder.address,weiValue);
-  FakeDaiInstance.transfer(instanceRewarder.address,weiValue);
-
-
-  console.log("****** CALL SET REWARD TOKEN TO STAKER **************************");
-  await instanceRewarder.setRewardToken(FakeDaiInstance.address);
-  
-
-
-  // change reward rate
-  console.log("****** REWARD RATE **************************");
-  await instanceRewarder.setRewardRate(1);
-
-
-  
-  // add some citizens
-  console.log("****** ADDING SOME CITIZENS FOR DBG **************************");
-  //await instanceRewarder.RegisterAddress(1,theaccount);
-  
- 
-};
-
-
-// // RINKEBY DEPLOY
+// // // GANACHE DEPLOY
 // module.exports = async function(deployer) {
 
-//     var daiAdress = "0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa";
-//     let accounts = await web3.eth.getAccounts();
+//   var daiAdress = "0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa";
+//   let accounts = await web3.eth.getAccounts();
+
+//   //var theaccount = accounts[0];
+//   var theaccount = "0x1AEA6e9F801E65c9967D061d8202C3dFc3447220";
+
+
+//   console.log("****** DEPLOY REWARDER CONTRACT **************************");
+//   await deployer.deploy(Rewarder);
+//   const instanceRewarder = await Rewarder.deployed();
+//   //console.log("adress rewarder "+instanceRewarder);
   
-//     //var theaccount = accounts[0];
-//     var theaccount = "0x1AEA6e9F801E65c9967D061d8202C3dFc3447220";
+//   // console.log("****** DEPLOY FAKE DAI TOKEN **************************");
+//   await deployer.deploy(FakeDai,"REWARD","REW");
+//   const FakeDaiInstance = await FakeDai.deployed();
+//   console.log("adress Dai token "+FakeDaiInstance.address);
+
+
+//   console.log("****** FUND REWARDER CONTRACT **************************");
+
+
+
+//   // 1000 dai for test
+//   const weiValue = web3.utils.toWei('1000', 'ether');
+//   //await FakeDaiInstance.methods.transfer(instanceRewarder.address,weiValue);
+//   FakeDaiInstance.transfer(instanceRewarder.address,weiValue);
+
+
+//   console.log("****** CALL SET REWARD TOKEN TO STAKER **************************");
+//   await instanceRewarder.setRewardToken(FakeDaiInstance.address);
+  
+
+
+//   // change reward rate
+//   console.log("****** REWARD RATE **************************");
+//   await instanceRewarder.setRewardRate(1);
+
+
+  
+//   // add some citizens
+//   console.log("****** ADDING SOME CITIZENS FOR DBG **************************");
+//   //await instanceRewarder.RegisterAddress(1,theaccount);
+  
+ 
+// };
+
+
+// RINKEBY DEPLOY
+module.exports = async function(deployer) {
+
+    var daiAdress = "0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa";
+    let accounts = await web3.eth.getAccounts();
+  
+    //var theaccount = accounts[0];
+    var theaccount = "0x1AEA6e9F801E65c9967D061d8202C3dFc3447220";
   
   
-//     console.log("****** DEPLOY REWARDER CONTRACT **************************");
-//     await deployer.deploy(Rewarder);
-//     const instanceRewarder = await Rewarder.deployed();
-//     //console.log("adress rewarder "+instanceRewarder);
+    console.log("****** DEPLOY REWARDER CONTRACT **************************");
+    await deployer.deploy(Rewarder);
+    const instanceRewarder = await Rewarder.deployed();
+    //console.log("adress rewarder "+instanceRewarder);
     
-//     // console.log("****** DEPLOY REWARD TOKEN **************************");
-//     // await deployer.deploy(RewardToken,"REWARD","REW");
-//     // const instanceRew = await RewardToken.deployed();
-//     // console.log("adress rew token "+instanceRew);
+    // console.log("****** DEPLOY REWARD TOKEN **************************");
+    // await deployer.deploy(RewardToken,"REWARD","REW");
+    // const instanceRew = await RewardToken.deployed();
+    // console.log("adress rew token "+instanceRew);
   
-//     // use deployed DAI
+    // use deployed DAI
     
-//     //let instanceRew = web3.eth.contract(abiDai).at(daiAdress);
-//     let instanceRew = new web3.eth.Contract(abiDai, daiAdress, {from: theaccount})
+    //let instanceRew = web3.eth.contract(abiDai).at(daiAdress);
+    let instanceRew = new web3.eth.Contract(abiDai, daiAdress, {from: theaccount})
   
-//     console.log("****** FUND REWARDER CONTRACT **************************");
-  
-  
-  
-//     // 100 dai for test
-//     const weiValue = web3.utils.toWei('1000', 'ether');
-//     await instanceRew.methods.transfer(instanceRewarder.address,weiValue);
-  
-//     console.log("****** CALL SET REWARD TOKEN TO STAKER **************************");
-//     //await instanceRewarder.setRewardToken(instanceRew.address);
-//     await instanceRewarder.setRewardToken(daiAdress);
+    console.log("****** FUND REWARDER CONTRACT **************************");
   
   
-//     // change reward rate
-//     console.log("****** REWARD RATE **************************");
-//     //await instanceRewarder.setRewardRate(100000000000000);
-//     await instanceRewarder.setRewardRate(10000000000000);
+  
+    // 100 dai for test
+    var balanceDAIInDeployer = await instanceRew.methods.balanceOf(theaccount).call();
+    console.log("balance in deployer "+balanceDAIInDeployer);
+
+    const weiValue = web3.utils.toWei('1000', 'ether');
+    console.log("amount to transfer "+weiValue);
+
+    await instanceRew.methods.transfer(instanceRewarder.address,weiValue).send({from: theaccount});
+
+
+    var balanceDAIInContract = await instanceRew.methods.balanceOf(instanceRewarder.address).call();
+    console.log("balance in contract "+balanceDAIInContract);
+  
+    console.log("****** CALL SET REWARD TOKEN TO STAKER **************************");
+    //await instanceRewarder.setRewardToken(instanceRew.address);
+    await instanceRewarder.setRewardToken(daiAdress);
+  
+  
+    // change reward rate
+    console.log("****** REWARD RATE **************************");
+    //await instanceRewarder.setRewardRate(100000000000000);
+    await instanceRewarder.setRewardRate(10000000000000);
   
     
-//     // add some citizens
-//     console.log("****** ADDING SOME CITIZENS FOR DBG **************************");
-//     await instanceRewarder.RegisterAddress("0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",theaccount);
+    // add some citizens
+    //console.log("****** ADDING SOME CITIZENS FOR DBG **************************");
+   // await instanceRewarder.RegisterAddress("0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",theaccount);
     
    
-//   };
+  };
