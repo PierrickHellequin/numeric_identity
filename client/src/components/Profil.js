@@ -4,14 +4,12 @@ import identityContract from "../contracts/IdentityPerson.json";
 import AddParentForm from "./Form/AddParentForm";
 import AddChildForm from "./Form/AddChildForm";
 import MyInformations from "./MyInformations";
-import { ethers } from "ethers";
 
 const Profil = ({ account }) => {
   const [instanceIdentity, setInstanceIdentity] = useState({});
   const [parentInformation, setParentInformation] = useState(0);
   const [showForm, setShowForm] = useState(false);
   const [childrenInformations, setChildrenInformations] = useState([]);
-  const cleanTab = [];
   const informationsChildrens = [];
 
   const loadContract = async () => {
@@ -29,7 +27,7 @@ const Profil = ({ account }) => {
         .getParentbyWallet()
         .call({ from: account })
         .then((res) => {
-          if(res.alive == true){
+          if (res.alive == true) {
             setParentInformation(res);
           }
         })
@@ -41,11 +39,15 @@ const Profil = ({ account }) => {
       await instanceIdentity.events
         .registerPeople({
           filter: {
-            parentWallet: account,
+            parentWallet: account.toLowerCase(),
           }, // Using an array means OR: e.g. 20 or 23
           fromBlock: 0,
         })
         .on("data", function (event) {
+          if(event.returnValues.parentWallet.toLowerCase() != account.toLowerCase()){
+            return;
+          }
+          console.log(event.returnValues);
           informationsChildrens[i] = event.returnValues;
           i++;
           setChildrenInformations(informationsChildrens);
@@ -77,7 +79,7 @@ const Profil = ({ account }) => {
       .send({ from: account })
       .then((res) => {
         setShowForm(false);
-        console.log(res);
+        alert("Enfant ajouté.");
       })
       .catch(function (err) {
         console.log(err);
@@ -96,6 +98,7 @@ const Profil = ({ account }) => {
       )
       .send({ from: account })
       .then((res) => {
+        alert("Parent ajouté.");
         setParentInformation(data);
       })
       .catch(function (err) {
@@ -103,7 +106,8 @@ const Profil = ({ account }) => {
       });
   };
 
-  const showFormChild = () => {
+  const showFormChild = (e) => {
+    e.preventDefault();
     setShowForm(!showForm);
   };
 
@@ -116,7 +120,6 @@ const Profil = ({ account }) => {
 
   return (
     <div className="container pt-5">
-      {console.log(parentInformation)}
       {account.length === 0 ? (
         <p style={{ paddingTop: "104px" }}>
           Pour s enregistrer il faut etre connecté à son compte Metamask
@@ -127,9 +130,29 @@ const Profil = ({ account }) => {
             <AddParentForm account={account} saveParent={saveParent} />
           ) : (
             <>
-              <MyInformations data={parentInformation} type="parent" />
+              <section className="family">
+                <h2>Mes informations</h2>
+                <ul>
+                  <MyInformations data={parentInformation} type="parent" />
+                </ul>
+              </section>
+              {childrenInformations.length > 0 ? (
+                <section className="family">
+                  <h2>Mes enfants</h2>
+                  <ul>
+                    {childrenInformations.map((value, index) => (
+                      <MyInformations
+                        data={childrenInformations[index]}
+                        type="children"
+                        key={index}
+                      />
+                    ))}
+                  </ul>
+                </section>
+              ) : (
+                ""
+              )}
 
-              <MyInformations data={childrenInformations} type="children" />
               <section className="actions">
                 <h2>Action</h2>
                 <ul>

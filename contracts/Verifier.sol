@@ -61,7 +61,7 @@ contract Verifier {
         string memory _streetAddress,
         TypeValidateur  _typeValidateur
     ) public onlyVerifier {
-        
+        require(msg.sender != address(0), "The wallet is not valid");
         require(_typeValidateur == TypeValidateur.hospital || _typeValidateur == TypeValidateur.state ||_typeValidateur == TypeValidateur.townHall, "Wrong type of validator");
         require(mapVerifier[_veriferAddress].active == false, "Already exist");
 
