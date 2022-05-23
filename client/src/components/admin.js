@@ -83,6 +83,7 @@ const Admin = ({ web3, account }) => {
   const validatePerson = async (e) => {
     e.preventDefault();
     let idPerson = e.target.idPerson.value;
+    let walletParent = e.target.walletParent.value;
     await instanceIdentity.methods
       .validatePerson(idPerson)
       .send({ from: account })
@@ -127,10 +128,11 @@ const Admin = ({ web3, account }) => {
           {showForm && (
             <AddValidateurForm account={account} saveEntity={saveEntity} />
           )}
-
+        
           {showFormValidate &&
             (childrenInformations.length > 0
               ? childrenInformations.map((value, index) => (
+             
                   <div key={index}>
                     <form onSubmit={validatePerson}>
                       {childrenInformations[index].name} -
@@ -144,6 +146,15 @@ const Admin = ({ web3, account }) => {
                           value={childrenInformations[index].idPerson}
                           type="text"
                           name="idPerson"
+                          required
+                          disabled
+                        />
+
+                      <Form.Label>Wallet</Form.Label>
+                        <Form.Control
+                          value={childrenInformations[index].parentWallet}
+                          type="text"
+                          name="walletParent"
                           required
                           disabled
                         />
