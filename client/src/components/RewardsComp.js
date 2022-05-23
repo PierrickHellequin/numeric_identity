@@ -342,9 +342,9 @@ class RewardsComp extends Component {
     const DaiValue = Web3.utils.fromWei(Web3.utils.toBN(this.props.RewardsAmountEstimated), 'ether');
 
 
-
-    const DaiBalance = Web3.utils.fromWei(Web3.utils.toBN(this.state.daiBalance), 'ether');
-    const UbiBalance = Web3.utils.fromWei(Web3.utils.toBN(this.state.ubiBalance), 'ether');
+    var DaiBalanceDeci =  (Web3.utils.fromWei(Web3.utils.toBN(this.state.daiBalance), 'ether'));
+    const DaiBalance = Number(DaiBalanceDeci).toFixed(2);
+    const UbiBalance = 0;//(Web3.utils.fromWei(Web3.utils.toBN(this.state.ubiBalance), 'ether')).toFixed(4);
     let cDaiBalance = 0;//Web3.utils.fromWei(Web3.utils.toBN(this.state.cDaiBalance), 'ether');
 
  
