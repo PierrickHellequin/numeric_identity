@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import getWeb3 from "../getWeb3";
 import identityContract from "../contracts/IdentityPerson.json";
-import idFundedRewarder from "../contracts/IdFundedRewarder.json";
 import AddValidateurForm from "./Form/AddValidateurFrom";
 import { Form, Button } from "react-bootstrap";
 
@@ -9,7 +8,6 @@ const Admin = ({ web3, account }) => {
   const [showForm, setShowForm] = useState(false);
   const [showFormValidate, setShowFormValidate] = useState(false);
   const [instanceIdentity, setInstanceIdentity] = useState({});
-  const [instanceRewarder, setInstanceRewarder] = useState({});
   const [childrenInformations, setChildrenInformations] = useState([]);
   const informationsChildrens = [];
 
@@ -24,21 +22,6 @@ const Admin = ({ web3, account }) => {
       );
       loadChildToValidate(instanceIdentity);
       setInstanceIdentity(instanceIdentity);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const loadContractRewarder = async () => {
-    try {
-      // Get the contract instance.
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = await idFundedRewarder.networks[networkId];
-      const instanceRewarder = await new web3.eth.Contract(
-        idFundedRewarder.abi,
-        deployedNetwork && deployedNetwork.address
-      );
-      setInstanceRewarder(instanceRewarder);
     } catch (error) {
       console.error(error);
     }
@@ -105,13 +88,6 @@ const Admin = ({ web3, account }) => {
       .send({ from: account })
       .then((res) => {
         console.log("Ca a fonctionné !! ");
-        await instanceRewarder.methods
-        .RegisterAddress(idPerson,"0xblablabla")
-        .send({ from: account }).then((res)=>
-        {
-          console.log("Registered in rewarder!! ");
-        })
-
       })
       .catch(function (err) {
         console.log(err);
@@ -122,7 +98,6 @@ const Admin = ({ web3, account }) => {
     if (account.length !== 0) {
       console.log("new Account");
       loadContract();
-      loadContractRewarder();
     }
   }, [account]);
 
