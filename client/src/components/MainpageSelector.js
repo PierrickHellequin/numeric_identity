@@ -25,10 +25,10 @@ class MainpageSelector extends Component {
 
       );
     } else if (this.props.curPage === 2) {
-      return <Admin />;
+      return <Admin web3 = {this.props.web3} account={this.props.account} />;
     }
     else if(this.props.curPage === 3){
-      return <Profil account={this.props.account}/>
+      return <Profil web3 = {this.props.web3} account={this.props.account}/>
     }
   }
 }

@@ -35,7 +35,6 @@ const Profil = ({ account }) => {
           console.log(err);
         });
 
-
       let i = 0;
       await instanceIdentity.events
         .registerPeople({
