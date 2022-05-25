@@ -4,7 +4,7 @@ import identityContract from "../contracts/IdentityPerson.json";
 import idFundedRewarder from "../contracts/IdFundedRewarder.json";
 import AddValidateurForm from "./Form/AddValidateurFrom";
 import ValidateChildForm from "./Form/ValidateChildForm";
-import { Form, Button } from "react-bootstrap";
+import { Accordion } from "react-bootstrap";
 
 const Admin = ({ web3, account }) => {
   const [showForm, setShowForm] = useState(false);
@@ -107,13 +107,11 @@ const Admin = ({ web3, account }) => {
       .then(async (res) => {
         console.log("Ca a fonctionné !! ");
         await instanceRewarder.methods
-        .RegisterAddress(idPerson,walletParent)
-        .send({ from: account })
-        .then((res)=>
-        {
-          console.log("Registered in rewarder!! ");
-        })
-
+          .RegisterAddress(idPerson, walletParent)
+          .send({ from: account })
+          .then((res) => {
+            console.log("Registered in rewarder!! ");
+          });
       })
       .catch(function (err) {
         console.log(err);
@@ -154,14 +152,21 @@ const Admin = ({ web3, account }) => {
           {showForm && (
             <AddValidateurForm account={account} saveEntity={saveEntity} />
           )}
-        
+
           {showFormValidate &&
             (childrenInformations.length > 0
-              ? childrenInformations.map((value, index) => (          
-                  <div key={index}>
-                    { console.log(childrenInformations[index])}
-                    <ValidateChildForm childData={childrenInformations[index]} validatePerson={validatePerson}/>
-                  </div>
+              ? childrenInformations.map((value, index) => (
+                  <Accordion defaultActiveKey={["0"]} alwaysOpen>
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Accordion Item #1</Accordion.Header>
+                      <Accordion.Body>
+                        <ValidateChildForm
+                          childData={childrenInformations[index]}
+                          validatePerson={validatePerson}
+                        />
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
                 ))
               : "No person to validate")}
         </>

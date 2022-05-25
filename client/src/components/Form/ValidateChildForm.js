@@ -55,7 +55,7 @@ const ValidateChildForm = ({ childData, validatePerson }) => {
     <div>
       <Form onSubmit={handleSubmit}>
         <div className="formGroup">
-          <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Group controlId="formBasicPassword">
             <Form.Control
               value={data.idPerson || ""}
               type="hidden"
@@ -64,7 +64,7 @@ const ValidateChildForm = ({ childData, validatePerson }) => {
               disabled
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Group controlId="formBasicPassword">
             <Form.Control
               value={data.parentWallet}
               type="hidden"
