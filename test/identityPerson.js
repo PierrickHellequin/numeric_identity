@@ -136,39 +136,7 @@ contract("IdentityPerson", async ([deployer, parentAddress, parentAddress2, vali
     expect(validPerson.validate).to.be.true;
   });
 
-  it("9. Fail because the limit of child is ten", async () => {
-
-    for(let i = 0; i <= 10; i++){
-      if( i == 10){
-        await expect(identityPerson.registerPerson(
-          parentAddress,
-          "Hugo",
-          "Hellequin",
-          "",
-          Date.parse("06/05/2002 00:00:00"),
-          "France",
-          "Wattrelos",
-          "Homme",
-          { from: parentAddress }
-        )).to.be.revertedWith("The limit of registration is 10 child");
-        continue;
-      }
-
-      await identityPerson.registerPerson(
-        parentAddress,
-        "Hugo",
-        "Hellequin",
-        "",
-        Date.parse("06/05/2002 00:00:00"),
-        "France",
-        "Wattrelos",
-        "Homme",
-        { from: parentAddress }
-      );
-    }
-  });
-
-  it('10. Update a person information', async()=>{
+  it('9. Update a person information', async()=>{
     await identityPerson.updatePerson(event.idPerson, "Cedric", "Vandaele", "enzo", "Homme", Date.parse("06/05/2002 00:00:00"), { from: parentAddress2 });
     let updatePerson = await identityPerson.getPersonByID(event.idPerson);
     expect(updatePerson.validate).to.be.false;

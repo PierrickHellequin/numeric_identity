@@ -3,6 +3,7 @@ import getWeb3 from "../getWeb3";
 import identityContract from "../contracts/IdentityPerson.json";
 import idFundedRewarder from "../contracts/IdFundedRewarder.json";
 import AddValidateurForm from "./Form/AddValidateurFrom";
+import ValidateChildForm from "./Form/ValidateChildForm";
 import { Form, Button } from "react-bootstrap";
 
 const Admin = ({ web3, account }) => {
@@ -97,10 +98,9 @@ const Admin = ({ web3, account }) => {
     setShowFormValidate(false);
   };
 
-  const validatePerson = async (e) => {
-    e.preventDefault();
-    let idPerson = e.target.idPerson.value;
-    let walletParent = e.target.walletParent.value;
+  const validatePerson = async (data) => {
+    let idPerson = data.idPerson;
+    let walletParent = data.parentWallet;
     await instanceIdentity.methods
       .validatePerson(idPerson)
       .send({ from: account })
@@ -157,44 +157,10 @@ const Admin = ({ web3, account }) => {
         
           {showFormValidate &&
             (childrenInformations.length > 0
-              ? childrenInformations.map((value, index) => (
-             
+              ? childrenInformations.map((value, index) => (          
                   <div key={index}>
-                    <form onSubmit={validatePerson}>
-                      {childrenInformations[index].name} -
-                      {childrenInformations[index].lastName}
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicPassword"
-                      >
-                        <Form.Label>Id person</Form.Label>
-                        <Form.Control
-                          value={childrenInformations[index].idPerson}
-                          type="text"
-                          name="idPerson"
-                          required
-                          disabled
-                        />
-
-                      <Form.Label>Wallet</Form.Label>
-                        <Form.Control
-                          value={childrenInformations[index].parentWallet}
-                          type="text"
-                          name="walletParent"
-                          required
-                          disabled
-                        />
-                      </Form.Group>
-                      <div className="formGroup last">
-                        <Button
-                          className="mb-3"
-                          variant="primary"
-                          type="submit"
-                        >
-                          Validate Person
-                        </Button>
-                      </div>
-                    </form>
+                    { console.log(childrenInformations[index])}
+                    <ValidateChildForm childData={childrenInformations[index]} validatePerson={validatePerson}/>
                   </div>
                 ))
               : "No person to validate")}

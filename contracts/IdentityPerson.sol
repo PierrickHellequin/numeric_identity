@@ -84,6 +84,8 @@ contract IdentityPerson is Verifier {
         bytes20 idPerson
     );
 
+    event validatePersonEvent(bytes20 identifiantUnique);
+
     /// @notice Function to save the identity of the owner of the wallet (the parent)
     /// @param  _ownerAddress : The address of the owner of this identity
     /// @param _name : Name of this identity
@@ -152,7 +154,7 @@ contract IdentityPerson is Verifier {
         string memory _birthGender
     )  public notVerifier returns(bytes20 ID){
         require(parentWithWallet[_ownerAddress].ownerAddress == _ownerAddress, "Missing information on parent.");
-        require(parentWithWallet[_ownerAddress].nbChildren < 10, "The limit of registration is 10 child");
+        require(parentWithWallet[_ownerAddress].nbChildren < 100, "The limit of registration is 10 child");
         bytes20 idPerson = bytes20(
             keccak256(abi.encode(msg.sender, blockhash(block.number - 1)))
         );
@@ -216,9 +218,12 @@ contract IdentityPerson is Verifier {
     /// @notice Validate child by the validator (State, hospital, town hall)
     /// @param identifiantUnique identifiant unique of a person to validate
     function validatePerson(bytes20 identifiantUnique) public onlyVerifier {
-        require( peopleByIdentifiant[identifiantUnique].birthDate != 0, "This person doesn't exist");
+        require( peopleByIdentifiant[identifiantUnique].birthDate != 0, "This person doesn't exist.");
+        require( peopleByIdentifiant[identifiantUnique].validate == false, "The child is already validate.");
         peopleByIdentifiant[identifiantUnique].validate = true;
         peopleByIdentifiant[identifiantUnique].validateBy = msg.sender;
+
+        emit validatePersonEvent(identifiantUnique);
     }
 
     /// @notice Get a person data by his wallet

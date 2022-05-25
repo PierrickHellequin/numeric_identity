@@ -28,7 +28,7 @@ const MyInformations = ({ data, type }) => {
         <>
           <li>
             <div className="people">
-              {data.validate == false ? (
+              {data.validate === false ? (
                 <div className="flap inProgress">
                   <span>inProgress</span>
                 </div>
