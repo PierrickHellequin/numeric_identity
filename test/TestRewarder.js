@@ -157,19 +157,19 @@ contract("IdFundedRewarder", accounts => {
     await RewarderInstance.RegisterAddress(id11, account0, { from: theaccount });
     await RewarderInstance.RegisterAddress(id12, account0, { from: theaccount });
 
-    // This one should not be added (10 max)
-    var iserror = false;
-    try {
-      await RewarderInstance.RegisterAddress(id13, account0, { from: theaccount });
-    } 
-    catch (error)
-    {
-      iserror = true;
-    }
-    if (!iserror)
-    {
-      assert.equal(1,0, "Adding 11 ID should trigger an exception");
-    }
+    // // This one should not be added (10 max)
+    // var iserror = false;
+    // try {
+    //   await RewarderInstance.RegisterAddress(id13, account0, { from: theaccount });
+    // } 
+    // catch (error)
+    // {
+    //   iserror = true;
+    // }
+    // if (!iserror)
+    // {
+    //   assert.equal(1,0, "Adding 11 ID should trigger an exception");
+    // }
 
 
 

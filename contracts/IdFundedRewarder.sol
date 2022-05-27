@@ -5,36 +5,6 @@ import "./IdModificationListener.sol";
 
 
 
-library SafeMath {
-
-  function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-    if (a == 0) {
-      return 0;
-    }
-    uint256 c = a * b;
-    assert(c / a == b);
-    return c;
-  }
-
-  function div(uint256 a, uint256 b) internal pure returns (uint256) {
-    // assert(b > 0); // Solidity automatically throws when dividing by 0
-    uint256 c = a / b;
-    // assert(a == b * c + a % b); // There is no case in which this doesn't hold
-    return c;
-  }
-
-  function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-    assert(b <= a);
-    return a - b;
-  }
-
-  function add(uint256 a, uint256 b) internal pure returns (uint256) {
-    uint256 c = a + b;
-    assert(c >= a);
-    return c;
-  }
-}
-
 
 
 
@@ -43,8 +13,6 @@ library SafeMath {
 /// @notice This rewards registered couples (id,EthereumAddress) regularly
 contract IdFundedRewarder is IdModificationListener
 {
-    using SafeMath for uint256;
-
     struct RewardInfo
     {
         bool isInList;
@@ -128,8 +96,8 @@ contract IdFundedRewarder is IdModificationListener
         uint current = block.timestamp;
          
         addressToKeys[newAddress].push(key);
-        // an address can manage no more than 10 ids
-        require(addressToKeys[newAddress].length < 10,"Ethereum address already manages 10 IDs");
+        // an address can manage no more than 100 ids
+        require(addressToKeys[newAddress].length < 100,"Ethereum address already manages 100 IDs");
         rewardInfos[key] = RewardInfo(true,current,newAddress,addressToKeys[newAddress].length-1);
         nbRegisteredAddresses++;
         emit idRegistered(key,newAddress);
@@ -175,7 +143,7 @@ contract IdFundedRewarder is IdModificationListener
 
         // add the key to the new adress
         addressToKeys[newAddress].push(key);
-        require(addressToKeys[newAddress].length < 10,"Ethereum address already manages 10 IDs");
+        require(addressToKeys[newAddress].length < 100,"Ethereum address already manages 100 IDs");
        
         rewardInfos[key].ethereumAddress = newAddress;
         rewardInfos[key].indexInArray = addressToKeys[newAddress].length - 1;
@@ -231,8 +199,7 @@ contract IdFundedRewarder is IdModificationListener
                uint current = block.timestamp;
                uint prev = rewardInfos[keys[i]].timestamp;
                uint nbTokensKey = (current - prev) * nbTokenPerSec;
-               nbTokens = nbTokens.add(nbTokensKey);
-               //nbTokens += nbTokensKey;
+               nbTokens += nbTokensKey;
            }
         }
         return nbTokens;
@@ -257,8 +224,7 @@ contract IdFundedRewarder is IdModificationListener
                uint current = block.timestamp;
                uint prev = rewardInfos[keys[i]].timestamp;
                uint nbTokensKey = (current - prev) * nbTokenPerSec;
-               nbTokens = nbTokens.add(nbTokensKey);
-               //nbTokens += nbTokensKey;
+               nbTokens += nbTokensKey;
                rewardInfos[keys[i]].timestamp = block.timestamp;
            }
         }

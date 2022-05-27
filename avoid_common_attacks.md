@@ -11,7 +11,7 @@ Nos contrats ne sont pas concernés par cette attaque car on n'envoie pas d'ethe
 
 ***** Arithmetic Over/Under Flows
 
-Nous n'avons pas vu d'exploitation possible d'over/under flows. Mais dans un but préventif, nous utilisons tout de même safeMath dans IdFundedRewarder.sol.
+Nous n'avons pas vu d'exploitation possible d'over/under flows. Dans un but préventif, nous utilisions tout de même safeMath dans IdFundedRewarder.sol, mais depuis la version 0.8 de solidity ce n'est plus la peine. L'utilisation de safeMath a donc été retirée du smart contract.
 
 
 ***** Unexpected Ether
@@ -46,7 +46,7 @@ Nous n'utilisons pas Tx.origin
 
 ***** DOS
 
-Un DOS était possible si à une même addresse était associés trop d'ID (pas évident à réaliser puisque validé par un validateur). Nous avons donc limité à 10 le nombre d'ID associés à une addresse ethereum. Les loops ne dépassent donc jamais 10 itérations.
+Un DOS était possible si à une même addresse était associés trop d'ID (pas évident à réaliser puisque validé par un validateur). Nous avons donc limité à 100 le nombre d'ID associés à une addresse ethereum. Les loops ne dépassent donc jamais 100 itérations.
 
 
 ***** Block Timestamp Manipulation
