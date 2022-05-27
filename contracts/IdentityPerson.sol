@@ -8,7 +8,7 @@ import "./Verifier.sol";
 // @notice This contract
 // @custom:certication This is an contrat create for the certification alyra
 contract IdentityPerson is Verifier {
-    address defaultAdress;
+
     enum DocumentLegal {
         Passport,
         Securitesocial,
@@ -40,10 +40,10 @@ contract IdentityPerson is Verifier {
         string name;
         string lastName;
         string otherName;
-        uint256 birthDate;
         string birthCity;
         string birthGender;
         string birthCountry;
+        uint256 birthDate;
         bool alive;
         bool validate;
     }
@@ -99,10 +99,8 @@ contract IdentityPerson is Verifier {
         string memory _document,
         uint256 _numberDocument
     )  notVerifier public {
-        require(
-            parentWithWallet[_ownerAddress].ownerAddress != _ownerAddress,
-            "The parent already exist"
-        );
+        require(parentWithWallet[_ownerAddress].ownerAddress != _ownerAddress,"The parent already exist");
+        require(msg.sender != address(0), "Not a good wallet");
         bytes20 idPerson = bytes20(
             keccak256(abi.encode(msg.sender, blockhash(block.number - 1)))
         );
@@ -160,16 +158,16 @@ contract IdentityPerson is Verifier {
         );
 
         peopleByIdentifiant[idPerson] = Person(
-            defaultAdress,
+            address(0),
             msg.sender,
             TypeGeneration.Child,
             _name,
             _lastName,
             _otherName,
-            _birthDate,
             _birthCity,
             _birthGender,
             _birthCountry,
+            _birthDate,
             true,
             false
         );

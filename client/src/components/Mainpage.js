@@ -18,8 +18,9 @@ const Mainpage = ({ account }) => {
           <div className="container">
             <div className="justify-content-center row">
               <div className="text-white text-center col-lg-8">
-                <h1 className="home-title">We help startups launch their products</h1>
-                <p className="pt-3 home-desc">Etiam sed.Interdum consequat proin vestibulum class at.</p>
+                <h1 className="home-title">Nous aidons les gouvernements Africains à recenser leur population
+</h1>
+                {/* <p className="pt-3 home-desc">Etiam sed.Interdum consequat proin vestibulum class at.</p> */}
               </div>
             </div>
           </div>
@@ -32,31 +33,31 @@ const Mainpage = ({ account }) => {
           <ul>
             <li>
               <i className="fa-solid fa-gem"></i>
-              <h3 className="pt-3">Digital Design</h3>
-              <p className="pt-3 text-center">Some quick example text to build on the card title and make up the bulk of the card's content. Moltin gives you the platform.</p>
+              <h3 className="pt-3">Acte de naissance </h3>
+              <p className="pt-3 text-center">Nous vous permettons via un simple smartphone d’enregistrer votre enfant, de consulter l’acte de naissance et de le modifier.</p>
             </li>
             <li>
               <i className="fa-solid fa-chart-pie"></i>
-              <h3 className="pt-3">Digital Design</h3>
-              <p className="pt-3 text-center">Some quick example text to build on the card title and make up the bulk of the card's content. Moltin gives you the platform.</p>
+              <h3 className="pt-3">Acte de décès </h3>
+              <p className="pt-3 text-center">Nous vous permettons via un simple smartphone d’enregistrer le décès de votre membre de famille, de consulter l’acte de décès et de le modifier au besoin</p>
             </li>
             <li>
               <i className="fa-solid fa-piggy-bank"></i>
-              <h3 className="pt-3">Digital Design</h3>
-              <p className="pt-3 text-center">Some quick example text to build on the card title and make up the bulk of the card's content. Moltin gives you the platform.</p>
+              <h3 className="pt-3">Récompense</h3>
+              <p className="pt-3 text-center">Nous vous récompensons pour vos enregistrements.</p>
             </li>
             <li>
               <i className="fa-solid fa-atom"></i>
-              <h3 className="pt-3">Digital Design</h3>
-              <p className="pt-3 text-center">Some quick example text to build on the card title and make up the bulk of the card's content. Moltin gives you the platform.</p>
+              <h3 className="pt-3">Utilisation des récompenses </h3>
+              <p className="pt-3 text-center">Epargner, Acheter simplement payes vos impôts.</p>
             </li><li>
                <i className="fa-solid fa-scroll"></i>
-              <h3 className="pt-3">Digital Design</h3>
-              <p className="pt-3 text-center">Some quick example text to build on the card title and make up the bulk of the card's content. Moltin gives you the platform.</p>
+              <h3 className="pt-3">Enregistrement des Mairies </h3>
+              <p className="pt-3 text-center">Votre rôle sera de valider les données de la population.</p>
             </li><li>
               <i className="fa-solid fa-plane"></i>
-              <h3 className="pt-3">Digital Design</h3>
-              <p className="pt-3 text-center">Some quick example text to build on the card title and make up the bulk of the card's content. Moltin gives you the platform.</p>
+              <h3 className="pt-3">Enregistrement des Hôpitaux </h3>
+              <p className="pt-3 text-center">Votre rôle sera de valider les données de la population.</p>
             </li>
           </ul>
         </div>
