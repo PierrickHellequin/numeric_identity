@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.14;
 
-import "./Verifier.sol";
+import "./Validateur.sol";
 
 // @title Contract for the identity of an human
 // @author Pierrick Hellequin
 // @notice This contract
 // @custom:certication This is an contrat create for the certification alyra
-contract IdentityPerson is Verifier {
+contract IdentityPerson is Validateur {
 
     enum DocumentLegal {
         Passport,
@@ -100,7 +100,7 @@ contract IdentityPerson is Verifier {
         string memory _country,
         string memory _document,
         uint256 _numberDocument
-    )  notVerifier public {
+    )  notValidateur public {
         require(parentWithWallet[_ownerAddress].ownerAddress != _ownerAddress,"The parent already exist");
         require(msg.sender != address(0), "Not a good wallet");
         bytes20 idPerson = bytes20(
@@ -152,7 +152,7 @@ contract IdentityPerson is Verifier {
         string memory _birthCountry,
         string memory _birthCity,
         string memory _birthGender
-    )  public notVerifier returns(bytes20 ID){
+    )  public notValidateur returns(bytes20 ID){
         require(parentWithWallet[_ownerAddress].ownerAddress == _ownerAddress, "Missing information on parent.");
         require(parentWithWallet[_ownerAddress].nbChildren < 100, "The limit of registration is 10 child");
         bytes20 idPerson = bytes20(
@@ -217,7 +217,7 @@ contract IdentityPerson is Verifier {
 
     /// @notice Validate child by the validator (State, hospital, town hall)
     /// @param identifiantUnique identifiant unique of a person to validate
-    function validatePerson(bytes20 identifiantUnique) public onlyVerifier {
+    function validatePerson(bytes20 identifiantUnique) public onlyValidateur {
         require( peopleByIdentifiant[identifiantUnique].birthDate != 0, "This person doesn't exist.");
         require( peopleByIdentifiant[identifiantUnique].validate == false, "The child is already validate.");
         peopleByIdentifiant[identifiantUnique].validate = true;

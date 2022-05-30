@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.14;
 
-// @title Contract verifier for the identity of an human
+// @title Contract validateur for the identity of an human
 // @author Pierrick Hellequin
-// @notice This contract add/update verifier
+// @notice This contract add/update validateur
 // @custom:certication This is an contrat create for the certification alyra
-contract Verifier {
+contract Validateur {
     enum TypeValidateur {
         hospital,
         state,
         townHall
     }
 
-    struct verifier {
+    struct validateur {
         address veriferAddress;
         string country;
         string city;
@@ -21,24 +21,24 @@ contract Verifier {
         bool active;
     }
 
-    mapping(address => verifier) private mapVerifier;
+    mapping(address => validateur) private mapValidateur;
 
-    event addVerifierEvent(address _veriferAddress, string  _country, string  _city, string  _streetAddress, TypeValidateur  _typeValidateur);
-    /// @notice Create a MODIFIER to validate that only the verifier can execute some functions
-    modifier onlyVerifier() {
-        require(mapVerifier[msg.sender].active == true, "Only verifier can execute this function");
+    event addValidateurEvent(address _veriferAddress, string  _country, string  _city, string  _streetAddress, TypeValidateur  _typeValidateur);
+    /// @notice Create a MODIFIER to validate that only the validateur can execute some functions
+    modifier onlyValidateur() {
+        require(mapValidateur[msg.sender].active == true, "Only validateur can execute this function");
         _;
     }
 
-    /// @notice Create a MODIFIER to validate that only the verifier can execute some functions
-    modifier notVerifier() {
-        require(mapVerifier[msg.sender].active == false, "Only not verifier can register informations.");
+    /// @notice Create a MODIFIER to validate that only the validateur can execute some functions
+    modifier notValidateur() {
+        require(mapValidateur[msg.sender].active == false, "Only not validateur can register informations.");
         _;
     }
 
-    //@notice Add by default the deployer as verifier
+    //@notice Add by default the deployer as validateur
     constructor() {
-        mapVerifier[msg.sender] = verifier(
+        mapValidateur[msg.sender] = validateur(
             msg.sender,
             "@solidyLand",
             "@truffle",
@@ -54,18 +54,18 @@ contract Verifier {
     /// @param _city : city of this identity
     /// @param _streetAddress : country of this identity
     /// @param _typeValidateur type of validateur
-    function addVerifier(
+    function addValidateur(
         address _veriferAddress,
         string memory _country,
         string memory _city,
         string memory _streetAddress,
         TypeValidateur  _typeValidateur
-    ) public onlyVerifier {
+    ) public onlyValidateur {
         require(msg.sender != address(0), "The wallet is not valid");
         require(_typeValidateur == TypeValidateur.hospital || _typeValidateur == TypeValidateur.state ||_typeValidateur == TypeValidateur.townHall, "Wrong type of validator");
-        require(mapVerifier[_veriferAddress].active == false, "Already exist");
+        require(mapValidateur[_veriferAddress].active == false, "Already exist");
 
-        mapVerifier[_veriferAddress] = verifier(
+        mapValidateur[_veriferAddress] = validateur(
             _veriferAddress,
             _country,
             _city,
@@ -74,12 +74,11 @@ contract Verifier {
             true
         );
 
-        emit addVerifierEvent(_veriferAddress, _country, _city, _streetAddress,  _typeValidateur);
+        emit addValidateurEvent(_veriferAddress, _country, _city, _streetAddress,  _typeValidateur);
     }
 
-    /// @notice Get my information of verifier
-    function getMapVerifier() public view returns(verifier memory){
-        return mapVerifier[msg.sender]; 
+    /// @notice Get my information of validateur
+    function getMapValidateur() public view returns(validateur memory){
+        return mapValidateur[msg.sender]; 
     } 
-
 }

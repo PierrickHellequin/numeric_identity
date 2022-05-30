@@ -27,13 +27,13 @@ Teste le fait qu'une unique ethereum adresse peut gérer différents ID.
 
 ## identityPerson.js
 
-1) Fail because verifier want to register person
+1) Fail because validateur want to register person
 
-Le test permet de vérifier qu'un Verifier ne puisse pas s'enregistrer en tant que personne dans la dApp
+Le test permet de vérifier qu'un validateur ne puisse pas s'enregistrer en tant que personne dans la dApp
 
-2) Fail because verifier want to register parent
+2) Fail because validateur want to register parent
 
-Le test permet de vérifier qu'un Verifier ne puisse pas s'enregistrer en tant que parent dans la dApp
+Le test permet de vérifier qu'un validateur ne puisse pas s'enregistrer en tant que parent dans la dApp
 
 3) Fail because missing parent information
 
@@ -57,7 +57,7 @@ Le test permet de vérifier qu'on ne puisse pas valider des personnes qui n'exis
 
 8) Validate a child
 
-Le test permet de vérifier que la validation d'un enfant par un Verifier fonctionne
+Le test permet de vérifier que la validation d'un enfant par un validateur fonctionne
 
 9) Fail because the limit of child is ten
 
@@ -67,20 +67,20 @@ Le test permet de vérifier qu'un parent ne puisse pas enregistrer plus de 10 en
 
 Le test permet de vérifier que la mise à jour des informations d'une personne fontionne
 
-## verifier.js
+## validateur.js
 
-1) Fail because it is not execute by a verifier
+1) Fail because it is not execute by a validateur
 
-Le test permet de vérifier que seul un autre Verifier puisse enregistrer un nouveau Verifier
+Le test permet de vérifier que seul un autre validateur puisse enregistrer un nouveau validateur
 
-2) Create a good verifier and check data
+2) Create a good validateur and check data
 
-Le test permet de vérifier que l'ajout d'un Verifier fonctionne et que les données sont bien ajoutés 
+Le test permet de vérifier que l'ajout d'un validateur fonctionne et que les données sont bien ajoutés 
 
 3) Fail because is already exist
 
-Le test permet de vérifier qu'on ne puisse pas ajouter deux Verifier
+Le test permet de vérifier qu'on ne puisse pas ajouter deux validateur
 
-4).New verifier can add other verifier
+4).New validateur can add other validateur
 
-Le test permet de vérifier que le nouveau Verifier enregistré posséde maintenant les droits d'un Verifier
+Le test permet de vérifier que le nouveau validateur enregistré posséde maintenant les droits d'un validateur

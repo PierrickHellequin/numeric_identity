@@ -72,7 +72,7 @@ const Admin = ({ web3, account }) => {
   };
   const saveEntity = async (data) => {
     await instanceIdentity.methods
-      .addVerifier(
+      .addValidateur(
         data.wallet,
         data.country,
         data.city,

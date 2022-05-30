@@ -32,7 +32,7 @@ Les avantages sont:
     - ajout d'autres protocoles facile
     - la personne est plus libre dans ce qu'elle peut faire (utiliser un autre wallet)
 
-## IDENTITY CONTRACT (IdentityPerson.sol/Verifier.sol)
+## IDENTITY CONTRACT (IdentityPerson.sol/Validateur.sol)
 
 ### Guard Check
 
@@ -46,15 +46,15 @@ Permet de tester que les données en entrées sont valides et que l'ajout de don
 
 ### Restriction d'accès 
 
-    modifier onlyVerifier() {
-        require(mapVerifier[msg.sender].active == true, "Only verifier can execute this function");
+    modifier onlyValidateur() {
+        require(mapValidateur[msg.sender].active == true, "Only validateur can execute this function");
         _;
     }
 
 Permet de vérifier que seulement les entités (état, hôpital, mairie) puissent valider les données d'une personne ou ajouter une autre entité. 
 
-    modifier notVerifier() {
-        require(mapVerifier[msg.sender].active == false, "Only not verifier can register informations.");
+    modifier notValidateur() {
+        require(mapValidateur[msg.sender].active == false, "Only not validateur can register informations.");
         _;
     }
 

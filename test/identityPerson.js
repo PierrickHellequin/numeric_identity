@@ -11,7 +11,7 @@ contract("IdentityPerson", async ([deployer, parentAddress, parentAddress2, vali
     identityPerson = await IdentityPerson.deployed({from: deployer});
   });
 
-  it("1. Fail because verifier want to register person", async () => {
+  it("1. Fail because validateur want to register person", async () => {
     
     await expect(
       identityPerson.registerPerson(
@@ -25,10 +25,10 @@ contract("IdentityPerson", async ([deployer, parentAddress, parentAddress2, vali
         "Homme",
         { from: deployer }
       )
-    ).to.be.revertedWith("Only not verifier can register informations.");
+    ).to.be.revertedWith("Only not validateur can register informations.");
   });
 
-  it("2. Fail because verifier want to register parent", async () => {
+  it("2. Fail because validateur want to register parent", async () => {
     
     await expect(identityPerson.registerParent(
       parentAddress,
@@ -38,7 +38,7 @@ contract("IdentityPerson", async ([deployer, parentAddress, parentAddress2, vali
       "Passport",
       11235813213445,
       { from: deployer }
-    )).to.be.revertedWith("Only not verifier can register informations."); 
+    )).to.be.revertedWith("Only not validateur can register informations."); 
   });
 
   it("3. Fail because missing parent information", async () => {

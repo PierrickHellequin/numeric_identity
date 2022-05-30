@@ -8,7 +8,7 @@
 
 * * *
 
-###### addVerifier
+###### addValidateur
 
 Name
 
@@ -52,7 +52,7 @@ No parameters
 
 * * *
 
-###### getMapVerifier
+###### getMapValidateur
 
 **\*\*Add Documentation for the method here\*\***
 
