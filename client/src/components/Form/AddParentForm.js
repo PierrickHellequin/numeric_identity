@@ -34,8 +34,8 @@ const AddParentForm = ({account, saveParent  }) => {
     onSubmit: () => saveParent(data),
     initialValues: {
       // used to initialize the data
-      name: "John",
-      lastName: "Hellequin",
+      name: "Django",
+      lastName: "Doe",
       Gender: "Homme",
       Country: "Guinée",
       typeDocument: "Passport"

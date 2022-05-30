@@ -40,12 +40,12 @@ const AddChildForm = ({ account, saveChild }) => {
     onSubmit: () => saveChild(data),
     initialValues: {
       // used to initialize the data
-      name: "John",
-      lastName: "Hellequin",
+      name: "Astou",
+      lastName: "Doe",
       birthGender: "Femme",
       birthCountry: "Guinée",
       otherName: "",
-      birthCity: "Wattrelos",
+      birthCity: "Conakry",
     },
   });
   return (
