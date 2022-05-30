@@ -1,7 +1,7 @@
 Rinkeby
+
 IdentityPerson
+0x3C58ff3e0A4cA063cbb2F3FFe49AbdD03955a76C
 
-0x.......
 IdFundedReward
-
-0x.......
+0x5924877B9189577F63F550cFc32DB5B89D3bf533
