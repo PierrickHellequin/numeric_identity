@@ -73,24 +73,24 @@ const ValidateChildForm = ({ childData, validatePerson }) => {
               disabled
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Name *</Form.Label>
+          <Form.Group controlId="formBasicPassword">
+
             <Form.Control
               value={data.name || ""}
               onChange={handleChange("name")}
-              type="text"
+              type="hidden"
               placeholder="Name"
               required
               disabled
             />
             {errors.name && <p className="error">{errors.name}</p>}
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Last name *</Form.Label>
+          <Form.Group controlId="formBasicPassword">
+
             <Form.Control
               value={data.lastName || ""}
               onChange={handleChange("lastName")}
-              type="text"
+              type="hidden"
               disabled
               required
             />
@@ -119,9 +119,7 @@ const ValidateChildForm = ({ childData, validatePerson }) => {
               <p className="error">{errors.birthGender}</p>
             )}
           </Form.Group>
-        </div>
-
-        <div className="formGroup">
+        
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Birth date *</Form.Label>
             <Form.Control
@@ -133,6 +131,9 @@ const ValidateChildForm = ({ childData, validatePerson }) => {
             />
             {errors.birthDate && <p className="error">{errors.birthDate}</p>}
           </Form.Group>
+          </div>
+
+        <div className="formGroup">
           <Form.Group className="mb-3">
             <Form.Label>Birth country</Form.Label>
             <Form.Control

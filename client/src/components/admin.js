@@ -156,9 +156,9 @@ const Admin = ({ web3, account }) => {
           {showFormValidate &&
             (childrenInformations.length > 0
               ? childrenInformations.map((value, index) => (
-                  <Accordion defaultActiveKey={["0"]} alwaysOpen>
-                    <Accordion.Item eventKey="0">
-                      <Accordion.Header>Accordion Item #1</Accordion.Header>
+                  <Accordion defaultActiveKey={[{index}]} alwaysOpen>
+                    <Accordion.Item eventKey={index}>
+                      <Accordion.Header>{childrenInformations[index].name}  {childrenInformations[index].lastName}</Accordion.Header>
                       <Accordion.Body>
                         <ValidateChildForm
                           childData={childrenInformations[index]}
